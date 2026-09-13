@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 from typing import Optional, List
 from fastapi import FastAPI, HTTPException, Query, status
@@ -20,6 +21,21 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# ==========================================
+# HELPER FUNCTIONS
+# ==========================================
+
+def clean_price(price_str: Optional[str]):
+    """
+    Sanitizes price strings (e.g., '$25', '$25.00', '25.50') by stripping currency symbols
+    and non-numeric characters so PostgreSQL NUMERIC fields accept the value.
+    """
+    if price_str is None:
+        return None
+    cleaned = re.sub(r"[^\d.]", "", str(price_str))
+    return float(cleaned) if cleaned else None
 
 
 # ==========================================
@@ -97,7 +113,13 @@ def get_services():
 
 @app.post("/api/services", status_code=status.HTTP_201_CREATED)
 def create_service(service: ServiceCreate):
-    res = supabase.table("services").insert(service.model_dump()).execute()
+    service_dict = service.model_dump()
+    
+    # Sanitize price for database compatibility
+    if service_dict.get("price"):
+        service_dict["price"] = clean_price(service_dict["price"])
+
+    res = supabase.table("services").insert(service_dict).execute()
     if not res.data:
         raise HTTPException(status_code=400, detail="Failed to create service")
     return res.data[0]
@@ -108,6 +130,11 @@ def update_service(service_id: str, service: ServiceUpdate):
     update_data = {k: v for k, v in service.model_dump().items() if v is not None}
     if not update_data:
         raise HTTPException(status_code=400, detail="No fields provided for update")
+        
+    # Sanitize price if present in update payload
+    if "price" in update_data and update_data["price"]:
+        update_data["price"] = clean_price(update_data["price"])
+
     res = supabase.table("services").update(update_data).eq("id", service_id).execute()
     if not res.data:
         raise HTTPException(status_code=404, detail="Service not found or update failed")
