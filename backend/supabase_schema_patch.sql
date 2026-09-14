@@ -1,6 +1,13 @@
 -- Run this once in the Supabase SQL editor for the deployed project.
 alter table public.blogs add column if not exists likes integer not null default 0;
 
+alter table public.bookings add column if not exists service_title text;
+alter table public.bookings add column if not exists time_slot text;
+alter table public.bookings add column if not exists client_name text;
+alter table public.bookings add column if not exists client_email text;
+alter table public.bookings add column if not exists client_phone text;
+alter table public.bookings add column if not exists message text;
+
 create table if not exists public.schedule_rules (
 	id uuid primary key default gen_random_uuid(),
 	type text not null check (type in ('recurring_slot', 'day_off_weekly', 'slot_override', 'date_off_override')),

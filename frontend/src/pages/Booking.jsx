@@ -215,11 +215,12 @@ export default function Booking() {
             <div className="relative flex items-center justify-between max-w-2xl mx-auto">
               
               {/* Connector Progress Bar Line */}
-              <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-1 bg-slate-800 -z-0 rounded-full" />
-              <div 
-                className="absolute top-1/2 left-0 -translate-y-1/2 h-1 bg-[#70BAE6] transition-all duration-300 ease-in-out -z-0 rounded-full"
-                style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
-              />
+              <div className="absolute top-5 sm:top-6 left-5 sm:left-6 right-5 sm:right-6 -translate-y-1/2 h-1 bg-slate-800 -z-0 rounded-full">
+                <div
+                  className="h-full bg-[#70BAE6] transition-all duration-300 ease-in-out rounded-full"
+                  style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
+                />
+              </div>
 
               {steps.map((step) => {
                 const isCompleted = currentStep > step.number;

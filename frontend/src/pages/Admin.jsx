@@ -83,10 +83,12 @@ export default function Admin() {
   });
   const [dateOverrides, setDateOverrides] = useState([]);
   const [overrideInput, setOverrideInput] = useState({
+    scope: 'dates',
     date: '',
-    is_full_day_off: true,
-    custom_slot: '',
-    notes: ''
+    selectedDates: [],
+    weekday: '1',
+    slot: '',
+    newSlot: ''
   });
 
   // ---------------------------------------------------------------------------
@@ -136,11 +138,10 @@ export default function Admin() {
         setDaysOff(loadedDaysOff);
         setDateOverrides(
           rules
-            .filter((rule) => rule.type === 'date_off_override' || rule.type === 'slot_override')
+            .filter((rule) => rule.type === 'slot_override')
             .map((rule) => ({
               ...rule,
               date: rule.specific_date,
-              is_full_day_off: rule.type === 'date_off_override',
               custom_slot: rule.time_slot || ''
             }))
         );
@@ -338,23 +339,36 @@ export default function Admin() {
     }
   };
 
-  const handleAddDateOverride = async (e) => {
+  const handleAddDateOverride = async (e, isBan) => {
     e.preventDefault();
-    if (!overrideInput.date) return;
+    const selectedSlot = isBan ? overrideInput.slot : overrideInput.newSlot;
+    if (!selectedSlot.trim()) {
+      showMessage('error', isBan ? 'Select an existing slot to ban.' : 'Enter a new time slot to add.');
+      return;
+    }
+
+    const ruleBase = {
+      type: 'slot_override',
+      time_slot: selectedSlot.trim(),
+      is_available: !isBan
+    };
+    const rules = overrideInput.scope === 'weekday'
+      ? [{ ...ruleBase, day_of_week: Number(overrideInput.weekday) }]
+      : overrideInput.selectedDates.map((date) => ({ ...ruleBase, specific_date: date }));
+
+    if (rules.length === 0) {
+      showMessage('error', 'Select at least one date or a weekday.');
+      return;
+    }
 
     try {
-      await axios.post(`${getApiBase()}/api/schedules`, {
-        type: overrideInput.is_full_day_off ? 'date_off_override' : 'slot_override',
-        specific_date: overrideInput.date,
-        time_slot: overrideInput.is_full_day_off ? null : overrideInput.custom_slot,
-        is_available: !overrideInput.is_full_day_off
-      });
-      setOverrideInput({ date: '', is_full_day_off: true, custom_slot: '', notes: '' });
-      showMessage('success', 'Date override added.');
+      await Promise.all(rules.map((rule) => axios.post(`${getApiBase()}/api/schedules`, rule)));
+      setOverrideInput((current) => ({ ...current, date: '', selectedDates: [], slot: '', newSlot: '' }));
+      showMessage('success', isBan ? 'Time slot banned.' : 'New time slot added.');
       fetchAllAdminData();
     } catch (err) {
-      console.error('Error adding date override:', err);
-      showMessage('error', 'Failed to add date override.');
+      console.error('Error saving slot override:', err);
+      showMessage('error', err.response?.data?.detail || 'Failed to save slot override.');
     }
   };
 
@@ -1036,59 +1050,70 @@ export default function Admin() {
               </div>
             </div>
 
-            {/* Date Overrides & Holiday Closures */}
+            {/* Slot Overrides */}
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6">
               <div className="flex items-center justify-between pb-4 border-b">
                 <div className="flex items-center gap-2">
                   <AlertCircle className="w-5 h-5 text-[#70BAE6]" />
-                  <h3 className="text-base font-bold text-slate-900">Specific Date Overrides &amp; Holiday Closures</h3>
+                  <h3 className="text-base font-bold text-slate-900">Specific Slot Overrides</h3>
                 </div>
               </div>
 
-              <form onSubmit={handleAddDateOverride} className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Select Date *</label>
-                  <input
-                    type="date"
-                    required
-                    value={overrideInput.date}
-                    onChange={(e) => setOverrideInput({ ...overrideInput, date: e.target.value })}
-                    className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#70BAE6]"
-                  />
-                </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {[{ isBan: true, title: 'Ban an Existing Slot', action: 'Ban Slot' }, { isBan: false, title: 'Add a New Slot', action: 'Add Slot' }].map(({ isBan, title, action }) => (
+                  <form key={title} onSubmit={(event) => handleAddDateOverride(event, isBan)} className="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <h4 className="text-sm font-bold text-slate-900">{title}</h4>
 
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Override Action</label>
-                  <select
-                    value={overrideInput.is_full_day_off ? 'off' : 'custom'}
-                    onChange={(e) => setOverrideInput({ ...overrideInput, is_full_day_off: e.target.value === 'off' })}
-                    className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#70BAE6]"
-                  >
-                    <option value="off">Block Full Day Off (Closed)</option>
-                    <option value="custom">Add Custom Time Slot Only</option>
-                  </select>
-                </div>
+                    <div className="flex gap-2">
+                      <label className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <input type="radio" checked={overrideInput.scope === 'dates'} onChange={() => setOverrideInput({ ...overrideInput, scope: 'dates' })} />
+                        Dates
+                      </label>
+                      <label className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <input type="radio" checked={overrideInput.scope === 'weekday'} onChange={() => setOverrideInput({ ...overrideInput, scope: 'weekday' })} />
+                        Weekday
+                      </label>
+                    </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Custom Slot / Note</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Holiday or 04:00 PM - 06:00 PM"
-                    value={overrideInput.custom_slot}
-                    onChange={(e) => setOverrideInput({ ...overrideInput, custom_slot: e.target.value })}
-                    className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#70BAE6]"
-                  />
-                </div>
+                    {overrideInput.scope === 'dates' ? (
+                      <div className="space-y-2">
+                        <label className="block text-xs font-bold text-slate-700">Select dates</label>
+                        <div className="flex gap-2">
+                          <input type="date" value={overrideInput.date} onChange={(e) => setOverrideInput({ ...overrideInput, date: e.target.value })} className="flex-1 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#70BAE6]" />
+                          <button type="button" onClick={() => overrideInput.date && !overrideInput.selectedDates.includes(overrideInput.date) && setOverrideInput({ ...overrideInput, selectedDates: [...overrideInput.selectedDates, overrideInput.date], date: '' })} className="px-3 py-2 bg-slate-800 text-white rounded-xl text-xs font-bold">Add Date</button>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {overrideInput.selectedDates.map((date) => <button key={date} type="button" onClick={() => setOverrideInput({ ...overrideInput, selectedDates: overrideInput.selectedDates.filter((item) => item !== date) })} className="px-2 py-1 rounded-full bg-[#70BAE6]/15 text-[#2879a8] text-xs">{date} x</button>)}
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Select weekday</label>
+                        <select value={overrideInput.weekday} onChange={(e) => setOverrideInput({ ...overrideInput, weekday: e.target.value })} className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#70BAE6]">
+                          {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, index) => <option key={day} value={index}>{day}</option>)}
+                        </select>
+                      </div>
+                    )}
 
-                <div className="flex items-end">
-                  <button
-                    type="submit"
-                    className="w-full bg-[#70BAE6] hover:bg-[#58A6D3] text-white font-bold py-2 rounded-xl text-xs shadow"
-                  >
-                    Add Date Override
-                  </button>
-                </div>
-              </form>
+                    {isBan ? (
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Select existing slot</label>
+                        <select required value={overrideInput.slot} onChange={(e) => setOverrideInput({ ...overrideInput, slot: e.target.value })} className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#70BAE6]">
+                          <option value="">Choose a recurring slot</option>
+                          {recurringSlots.map((slot) => <option key={slot.id} value={slot.time_slot}>{slot.time_slot}</option>)}
+                        </select>
+                      </div>
+                    ) : (
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">New time slot</label>
+                        <input required type="text" placeholder="e.g. 04:00 PM - 06:00 PM" value={overrideInput.newSlot} onChange={(e) => setOverrideInput({ ...overrideInput, newSlot: e.target.value })} className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#70BAE6]" />
+                      </div>
+                    )}
+
+                    <button type="submit" className={`w-full ${isBan ? 'bg-rose-600 hover:bg-rose-700' : 'bg-[#70BAE6] hover:bg-[#58A6D3]'} text-white font-bold py-2 rounded-xl text-xs shadow`}>{action}</button>
+                  </form>
+                ))}
+              </div>
 
               <div className="space-y-2">
                 {dateOverrides.length === 0 ? (
@@ -1097,12 +1122,8 @@ export default function Admin() {
                   dateOverrides.map((ov) => (
                     <div key={ov.id} className="flex items-center justify-between p-3.5 bg-white rounded-xl border border-slate-200 text-xs">
                       <div className="flex items-center gap-3">
-                        <span className="font-bold text-slate-900">{ov.date}</span>
-                        {ov.is_full_day_off ? (
-                          <span className="bg-rose-100 text-rose-700 px-2.5 py-0.5 rounded-full font-extrabold">Full Day Closed</span>
-                        ) : (
-                          <span className="bg-[#70BAE6]/20 text-[#70BAE6] px-2.5 py-0.5 rounded-full font-bold">Custom: {ov.custom_slot}</span>
-                        )}
+                        <span className="font-bold text-slate-900">{ov.specific_date || ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][ov.day_of_week]}</span>
+                        <span className={`px-2.5 py-0.5 rounded-full font-bold ${ov.is_available ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>{ov.is_available ? 'Added' : 'Banned'}: {ov.time_slot}</span>
                       </div>
                       <button type="button" onClick={() => handleDeleteDateOverride(ov.id)} className="text-slate-400 hover:text-rose-600">
                         <Trash2 className="w-4 h-4" />

@@ -254,12 +254,13 @@ def get_availability(date: str = Query(..., description="Target date in YYYY-MM-
         
         available_slots = set([item["time_slot"] for item in recurring_res.data if item.get("time_slot")])
 
-        # Check 4: Slot Overrides (Additions or Removals)
-        overrides_res = supabase.table("schedule_rules").select("time_slot", "is_available") \
-            .eq("type", "slot_override") \
-            .eq("specific_date", date).execute()
+        # Check 4: Slot overrides for this date or its weekday.
+        date_overrides = supabase.table("schedule_rules").select("time_slot", "is_available") \
+            .eq("type", "slot_override").eq("specific_date", date).execute()
+        weekday_overrides = supabase.table("schedule_rules").select("time_slot", "is_available") \
+            .eq("type", "slot_override").eq("day_of_week", day_of_week).execute()
 
-        for override in overrides_res.data:
+        for override in [*weekday_overrides.data, *date_overrides.data]:
             slot = override.get("time_slot")
             if slot:
                 if override.get("is_available", True):
