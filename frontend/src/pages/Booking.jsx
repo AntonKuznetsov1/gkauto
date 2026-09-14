@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Car
 } from 'lucide-react';
+import { getServices, getAvailability } from '../api';
 
 export default function Booking() {
   const navigate = useNavigate();
@@ -48,50 +49,16 @@ export default function Booking() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [redirectCountdown, setRedirectCountdown] = useState(5);
 
-  // Fallback Service Catalog
-  const fallbackServices = [
-    {
-      id: 'srv-1',
-      title: 'Full Interior & Exterior Detail',
-      description: 'Comprehensive deep cleaning, steam decontamination, leather conditioning, single-stage paint enhancement, and sealant protection.',
-      price: '$249.99'
-    },
-    {
-      id: 'srv-2',
-      title: 'Premium Audio & Subwoofer Installation',
-      description: 'Custom amplifier integration, aftermarket head unit installation, door speaker upgrades, and professional wiring harness routing.',
-      price: '$199.99'
-    },
-    {
-      id: 'srv-3',
-      title: 'Ceramic Coating Package',
-      description: 'Multi-stage paint correction followed by 3-year hydrophobic ceramic coating application for extreme shine and paint defense.',
-      price: '$599.99'
-    },
-    {
-      id: 'srv-4',
-      title: 'Express Wash & Interior Refresh',
-      description: 'Hand wash, wheel decontamination, tire dressing, interior vacuuming, wipe-down, and streak-free window cleaning.',
-      price: '$89.99'
-    }
-  ];
-
   // 1. Fetch Available Services on Mount
   useEffect(() => {
     async function fetchServices() {
       try {
         setLoadingServices(true);
-        const res = await fetch('/api/services');
-        if (!res.ok) throw new Error('Failed to load services from API');
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          setServices(data);
-        } else {
-          setServices(fallbackServices);
-        }
+        const data = await getServices();
+        setServices(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.warn('API unavailable, loading fallback service catalog:', err);
-        setServices(fallbackServices);
+        console.warn('Could not load services from API:', err);
+        setServices([]);
       } finally {
         setLoadingServices(false);
       }
@@ -122,21 +89,11 @@ export default function Booking() {
       setLoadingSlots(true);
       setErrorMsg('');
       try {
-        const res = await fetch(`/api/availability?date=${selectedDate}`);
-        if (!res.ok) throw new Error('Could not retrieve slot availability');
-        const data = await res.json();
-        setAvailableSlots(data.slots || []);
+        const data = await getAvailability(selectedDate);
+        setAvailableSlots(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.warn('API error fetching availability, simulating time slot schedule:', err);
-        // Fallback mock scheduling algorithm
-        setTimeout(() => {
-          setAvailableSlots([
-            '08:00 AM',
-            '10:30 AM',
-            '01:00 PM',
-            '03:30 PM'
-          ]);
-        }, 500);
+        console.warn('Could not load availability from API:', err);
+        setAvailableSlots([]);
       } finally {
         setLoadingSlots(false);
       }
@@ -325,7 +282,11 @@ export default function Booking() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {services.map((service) => {
+                  {services.length === 0 ? (
+                    <div className="md:col-span-2 rounded-xl border border-slate-700 bg-slate-800/50 p-8 text-center">
+                      <p className="text-sm text-slate-400">No services are available for booking yet.</p>
+                    </div>
+                  ) : services.map((service) => {
                     const isSelected = selectedService?.id === service.id;
                     return (
                       <div

@@ -25,65 +25,15 @@ export default function Home() {
   const [services, setServices] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fallback services array used if backend is loading or unavailable
-  const fallbackServices = [
-    {
-      id: 'fallback-1',
-      title: 'Complete Interior & Exterior Detailing',
-      description: 'Full deep steam cleaning, leather conditioning, paint decontamination, multi-stage hand wash, and tire dressing for complete renewal.',
-      price: 'Starting at $199',
-      icon: Car
-    },
-    {
-      id: 'fallback-2',
-      title: 'Wax & Polish',
-      description: 'High-gloss paint restoration, minor swirl removal, and long-lasting synthetic wax sealant protection.',
-      price: 'Starting at $149',
-      icon: Sparkles
-    },
-    {
-      id: 'fallback-3',
-      title: 'Tint Windows',
-      description: 'Premium UV-blocking ceramic automotive window tinting for maximum heat reduction, privacy, and glare control.',
-      price: 'Starting at $179',
-      icon: Sun
-    },
-    {
-      id: 'fallback-4',
-      title: '3M Protection',
-      description: 'Durable clear bra / paint protection film (PPF) shielding your vehicle front against rock chips, scratches, and road debris.',
-      price: 'Starting at $299',
-      icon: ShieldCheck
-    },
-    {
-      id: 'fallback-5',
-      title: 'Stereo Installation & Services',
-      description: 'Custom sound system integration, touchscreen head unit upgrades, premium speakers, subwoofers, and amplifier tuning.',
-      price: 'Custom Quote',
-      icon: Music
-    },
-    {
-      id: 'fallback-6',
-      title: 'Remote Start',
-      description: 'Professional installation of long-range, cold-weather reliable remote vehicle starters with smartphone app options.',
-      price: 'Starting at $249',
-      icon: Flame
-    }
-  ];
-
   useEffect(() => {
     const fetchServices = async () => {
       try {
         const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
         const response = await axios.get(`${apiBase}/api/services`);
-        if (response.data && response.data.length > 0) {
-          setServices(response.data);
-        } else {
-          setServices(fallbackServices);
-        }
+        setServices(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
-        console.warn('Backend API unreachable, utilizing fallback services payload:', error);
-        setServices(fallbackServices);
+        console.warn('Could not load services from API:', error);
+        setServices([]);
       } finally {
         setIsLoading(false);
       }
@@ -283,8 +233,13 @@ export default function Home() {
 
           {/* Services Grid (6 Cards) */}
           {!isLoading && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service, index) => {
+            services.length === 0 ? (
+              <div className="py-12 text-center border border-slate-200 rounded-2xl">
+                <p className="text-sm text-slate-500">Our services are being updated. Please check back soon.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {services.map((service, index) => {
                 const IconComponent = service.icon || getServiceIcon(service.title);
 
                 return (
@@ -330,8 +285,9 @@ export default function Home() {
                     </div>
                   </div>
                 );
-              })}
-            </div>
+                })}
+              </div>
+            )
           )}
 
         </div>

@@ -132,11 +132,24 @@ export default function Admin() {
         setBookings(res.data || []);
       } else if (activeTab === 'schedules') {
         const res = await axios.get(`${apiBase}/api/schedules`);
-        if (res.data) {
-          setRecurringSlots(res.data.recurring_slots || []);
-          if (res.data.days_off) setDaysOff(res.data.days_off);
-          setDateOverrides(res.data.date_overrides || []);
-        }
+        const rules = Array.isArray(res.data) ? res.data : [];
+        const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const loadedDaysOff = weekDays.reduce((result, day, index) => {
+          result[day] = rules.some((rule) => rule.type === 'day_off_weekly' && rule.day_of_week === index);
+          return result;
+        }, {});
+        setRecurringSlots(rules.filter((rule) => rule.type === 'recurring_slot'));
+        setDaysOff(loadedDaysOff);
+        setDateOverrides(
+          rules
+            .filter((rule) => rule.type === 'date_off_override' || rule.type === 'slot_override')
+            .map((rule) => ({
+              ...rule,
+              date: rule.specific_date,
+              is_full_day_off: rule.type === 'date_off_override',
+              custom_slot: rule.time_slot || ''
+            }))
+        );
       } else if (activeTab === 'blogs') {
         const res = await axios.get(`${apiBase}/api/blogs`);
         setBlogs(res.data || []);
@@ -278,59 +291,87 @@ export default function Admin() {
     e.preventDefault();
     if (!newSlotInput.trim()) return;
 
-    const updated = [...recurringSlots, newSlotInput.trim()];
-    await saveScheduleState(updated, daysOff, dateOverrides);
-    setNewSlotInput('');
+    try {
+      await axios.post(`${getApiBase()}/api/schedules`, {
+        type: 'recurring_slot',
+        time_slot: newSlotInput.trim(),
+        is_available: true
+      });
+      setNewSlotInput('');
+      showMessage('success', 'Time slot added.');
+      fetchAllAdminData();
+    } catch (err) {
+      console.error('Error adding recurring slot:', err);
+      showMessage('error', 'Failed to add time slot.');
+    }
   };
 
-  const handleDeleteRecurringSlot = async (indexToDelete) => {
-    const updated = recurringSlots.filter((_, idx) => idx !== indexToDelete);
-    await saveScheduleState(updated, daysOff, dateOverrides);
+  const handleDeleteRecurringSlot = async (scheduleId) => {
+    try {
+      await axios.delete(`${getApiBase()}/api/schedules/${scheduleId}`);
+      showMessage('success', 'Time slot removed.');
+      fetchAllAdminData();
+    } catch (err) {
+      console.error('Error deleting recurring slot:', err);
+      showMessage('error', 'Failed to remove time slot.');
+    }
   };
 
   const handleToggleDayOff = async (dayName) => {
-    const updatedDaysOff = { ...daysOff, [dayName]: !daysOff[dayName] };
-    setDaysOff(updatedDaysOff);
-    await saveScheduleState(recurringSlots, updatedDaysOff, dateOverrides);
+    const dayIndex = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].indexOf(dayName);
+
+    try {
+      const scheduleResponse = await axios.get(`${getApiBase()}/api/schedules`);
+      const existingRule = daysOff[dayName]
+        ? (scheduleResponse.data || []).find(
+            (rule) => rule.type === 'day_off_weekly' && rule.day_of_week === dayIndex
+          )
+        : null;
+
+      if (existingRule) {
+        await axios.delete(`${getApiBase()}/api/schedules/${existingRule.id}`);
+      } else {
+        await axios.post(`${getApiBase()}/api/schedules`, {
+          type: 'day_off_weekly',
+          day_of_week: dayIndex,
+          is_available: false
+        });
+      }
+      fetchAllAdminData();
+    } catch (err) {
+      console.error('Error updating weekly day off:', err);
+      showMessage('error', 'Failed to update weekly hours.');
+    }
   };
 
   const handleAddDateOverride = async (e) => {
     e.preventDefault();
     if (!overrideInput.date) return;
 
-    const newOverride = {
-      id: Date.now().toString(),
-      date: overrideInput.date,
-      is_full_day_off: overrideInput.is_full_day_off,
-      custom_slot: overrideInput.custom_slot || null,
-      notes: overrideInput.notes || ''
-    };
-
-    const updatedOverrides = [...dateOverrides, newOverride];
-    await saveScheduleState(recurringSlots, daysOff, updatedOverrides);
-    setOverrideInput({ date: '', is_full_day_off: true, custom_slot: '', notes: '' });
-  };
-
-  const handleDeleteDateOverride = async (idToDelete) => {
-    const updatedOverrides = dateOverrides.filter((item) => item.id !== idToDelete);
-    await saveScheduleState(recurringSlots, daysOff, updatedOverrides);
-  };
-
-  const saveScheduleState = async (slots, days, overrides) => {
-    const apiBase = getApiBase();
     try {
-      await axios.post(`${apiBase}/api/schedules`, {
-        recurring_slots: slots,
-        days_off: days,
-        date_overrides: overrides
+      await axios.post(`${getApiBase()}/api/schedules`, {
+        type: overrideInput.is_full_day_off ? 'date_off_override' : 'slot_override',
+        specific_date: overrideInput.date,
+        time_slot: overrideInput.is_full_day_off ? null : overrideInput.custom_slot,
+        is_available: !overrideInput.is_full_day_off
       });
-      setRecurringSlots(slots);
-      setDaysOff(days);
-      setDateOverrides(overrides);
-      showMessage('success', 'Schedule settings saved to database.');
+      setOverrideInput({ date: '', is_full_day_off: true, custom_slot: '', notes: '' });
+      showMessage('success', 'Date override added.');
+      fetchAllAdminData();
     } catch (err) {
-      console.error('Error saving schedule:', err);
-      showMessage('error', 'Failed to update schedule settings.');
+      console.error('Error adding date override:', err);
+      showMessage('error', 'Failed to add date override.');
+    }
+  };
+
+  const handleDeleteDateOverride = async (scheduleId) => {
+    try {
+      await axios.delete(`${getApiBase()}/api/schedules/${scheduleId}`);
+      showMessage('success', 'Date override removed.');
+      fetchAllAdminData();
+    } catch (err) {
+      console.error('Error deleting date override:', err);
+      showMessage('error', 'Failed to remove date override.');
     }
   };
 
@@ -347,8 +388,8 @@ export default function Admin() {
 
   const handleCreateBlogPost = async (e) => {
     e.preventDefault();
-    if (!blogFormData.title || !blogFormData.content) {
-      showMessage('error', 'Please fill in both the post title and content.');
+    if (!blogFormData.title.trim()) {
+      showMessage('error', 'Please enter a post title.');
       return;
     }
 
@@ -369,7 +410,7 @@ export default function Admin() {
           });
 
         if (uploadError) {
-          console.warn('Supabase storage upload error, falling back to placeholder:', uploadError);
+          throw new Error(`Image upload failed: ${uploadError.message}`);
         } else {
           const { data: publicUrlData } = supabase.storage
             .from('blog-images')
@@ -381,8 +422,8 @@ export default function Admin() {
       const apiBase = getApiBase();
       await axios.post(`${apiBase}/api/blogs`, {
         title: blogFormData.title,
-        content: blogFormData.content,
-        image_url: publicImageUrl || 'https://images.unsplash.com/photo-1520340356584-f9917d1beb6d?auto=format&fit=crop&q=80&w=1000'
+        content: blogFormData.content.trim() || null,
+        image_url: publicImageUrl || null
       });
 
       showMessage('success', 'Blog post published successfully!');
@@ -963,12 +1004,12 @@ export default function Admin() {
                 </form>
 
                 <div className="space-y-2">
-                  {recurringSlots.map((slot, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200 text-sm font-semibold text-slate-800">
-                      <span>{slot}</span>
+                  {recurringSlots.map((slot) => (
+                    <div key={slot.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200 text-sm font-semibold text-slate-800">
+                      <span>{slot.time_slot}</span>
                       <button
                         type="button"
-                        onClick={() => handleDeleteRecurringSlot(idx)}
+                        onClick={() => handleDeleteRecurringSlot(slot.id)}
                         className="text-slate-400 hover:text-rose-600 transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -1133,7 +1174,7 @@ export default function Admin() {
                       <div className="space-y-2 pointer-events-none">
                         <Upload className="w-8 h-8 text-[#70BAE6] mx-auto" />
                         <p className="text-xs font-bold text-slate-700">Click or drag image file here</p>
-                        <p className="text-[10px] text-slate-400">PNG, JPG, or WEBP stored in Supabase `blog-images` bucket</p>
+                        <p className="text-[10px] text-slate-400">PNG, JPG, or WEBP. You can publish without an image.</p>
                       </div>
                     </div>
 
@@ -1145,9 +1186,8 @@ export default function Admin() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Article Content *</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Article Description (Optional)</label>
                     <textarea
-                      required
                       rows={8}
                       placeholder="Write your blog content here..."
                       value={blogFormData.content}

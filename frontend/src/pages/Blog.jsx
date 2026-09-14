@@ -9,6 +9,7 @@ import {
   Share2,
   Check
 } from 'lucide-react';
+import { getBlogs, toggleBlogLike } from '../api';
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
@@ -20,52 +21,20 @@ export default function Blog() {
   // Track share status feedback
   const [copiedId, setCopiedId] = useState(null);
 
-  // Fallback Articles Data
-  const fallbackBlogs = [
-    {
-      id: 'blog-1',
-      title: '5 Tips for Maintaining Your Vehicle’s Ceramic Coating',
-      content: `Ceramic coatings offer extraordinary hydrophobic protection and depth of shine, but they are not completely maintenance-free. To keep your coating performing at its highest level for years, follow these core maintenance rules:\n\n1. Use pH-Neutral Wash Solutions: Harsh detergents and alkaline dish soaps break down sealant layer hydrophobic qualities over time. Stick strictly to car-specific pH-neutral shampoos.\n2. The Two-Bucket Method: Always utilize dirt-trapping grit guards with separate rinse and wash buckets to prevent swirl marks.\n3. Avoid Automatic Soft-Cloth Car Washes: Abrasive spinning brushes in automated drive-thru washes accumulate debris from prior vehicles and strip ceramic sealants.\n4. Apply Periodic Ceramic Boosters: Every 3 to 6 months, apply a spray ceramic detailer after washing to refresh the top hydrophobic layer.\n5. Dry With Premium Microfiber: Towel dry immediately after rinsing to avoid hard mineral water spot etching.`,
-      image_url: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1000&q=80',
-      created_at: '2026-08-28T10:00:00Z',
-      likes: 24
-    },
-    {
-      id: 'blog-2',
-      title: 'Upgrading Your Car Audio: Head Units vs. Component Speakers',
-      content: `When upgrading an automotive audio system, vehicle owners frequently debate whether to start with the receiver head unit or high-frequency door speakers. Here is how to prioritize your budget for maximum sound quality:\n\nReplacing stock door speakers with two-way or three-way component speakers delivers an immediate improvement in audio clarity and vocal staging. Factory speakers typically use cheap paper cones with integrated paper tweeters.\n\nHowever, if your stock factory amplifier lacks adequate clean power output or Bluetooth signal clarity, feeding new high-end speakers from a distorted head unit will limit performance. For optimal acoustics, pair aftermarket speakers with a clean inline amplifier or a modern digital head unit featuring equalization control.`,
-      image_url: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=1000&q=80',
-      created_at: '2026-08-15T14:30:00Z',
-      likes: 41
-    },
-    {
-      id: 'blog-3',
-      title: 'Why Steam Cleaning is Essential for Vehicle Interior Sanitation',
-      content: `Traditional interior surface cleaners mask odors and clean topical vinyl, but deep bacteria and allergens remain embedded inside carpet fibers and seat upholstery.\n\nCommercial high-temperature steam extraction breaks down organic stains, eliminates odor-causing bacteria without harsh chemical fumes, and neutralizes mold spores lodged inside HVAC ventilation ducts. Steam detailing restores fabric texture while sterilizing contact surfaces safely.`,
-      image_url: 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1000&q=80',
-      created_at: '2026-07-30T09:15:00Z',
-      likes: 18
-    }
-  ];
-
   // 1. Load Blog Articles from API / Supabase
   useEffect(() => {
     async function fetchBlogs() {
       try {
         setLoading(true);
-        const res = await fetch('/api/blogs');
-        if (!res.ok) throw new Error('Could not fetch blog feed');
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          // Sort chronologically (newest post at top)
-          const sorted = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-          setBlogs(sorted);
-        } else {
-          setBlogs(fallbackBlogs);
-        }
+        const data = await getBlogs();
+        const sorted = (Array.isArray(data) ? data : []).sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        );
+        setBlogs(sorted);
       } catch (err) {
-        console.warn('API error, rendering fallback blog articles:', err);
-        setBlogs(fallbackBlogs);
+        console.warn('Could not load blog articles:', err);
+        setError('Could not load blog articles right now.');
+        setBlogs([]);
       } finally {
         setLoading(false);
       }
@@ -101,11 +70,7 @@ export default function Blog() {
 
     // Persist to Server API
     try {
-      await fetch(`/api/blogs/${blogId}/like`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action })
-      });
+      await toggleBlogLike(blogId, action);
     } catch (err) {
       console.warn('Could not sync like update with server:', err);
     }
@@ -161,7 +126,7 @@ export default function Blog() {
           </div>
         ) : blogs.length === 0 ? (
           <div className="text-center py-16 bg-slate-900/50 rounded-2xl border border-slate-800">
-            <p className="text-slate-400">No blog articles available yet.</p>
+            <p className="text-slate-400">{error || 'No blog articles available yet.'}</p>
           </div>
         ) : (
           /* Article Feed Container */

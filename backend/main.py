@@ -79,7 +79,8 @@ class BookingStatusUpdate(BaseModel):
 
 
 class ClientReachoutRequest(BaseModel):
-    custom_message: str
+    message: str
+    subject: Optional[str] = None
 
 
 class ScheduleCreate(BaseModel):
@@ -92,8 +93,8 @@ class ScheduleCreate(BaseModel):
 
 class BlogCreate(BaseModel):
     title: str
-    content: str
-    image_url: str
+    content: Optional[str] = None
+    image_url: Optional[str] = None
 
 
 class BlogLikeUpdate(BaseModel):
@@ -338,12 +339,12 @@ def reachout_to_client(booking_id: str, payload: ClientReachoutRequest):
         client_html = generate_client_outreach_email(
             client_name=booking["client_name"],
             status=booking["status"],
-            custom_message=payload.custom_message
+            custom_message=payload.message
         )
 
         email_sent = send_email(
             to_email=booking["client_email"],
-            subject="Message from G&K Auto Detailing & Stereo Services",
+            subject=payload.subject or "Message from G&K Auto Detailing & Stereo Services",
             html_body=client_html
         )
 
@@ -409,7 +410,8 @@ def get_blogs():
 @app.post("/api/blogs", status_code=status.HTTP_201_CREATED)
 def create_blog(blog: BlogCreate):
     try:
-        res = supabase.table("blogs").insert(blog.model_dump()).execute()
+        blog_data = {key: value for key, value in blog.model_dump().items() if value is not None}
+        res = supabase.table("blogs").insert(blog_data).execute()
         if not res.data:
             raise HTTPException(status_code=400, detail="Failed to create blog post")
         return res.data[0]
