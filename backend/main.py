@@ -400,6 +400,11 @@ def get_schedules():
         return res.data
     except APIError as e:
         print(f"SUPABASE ERROR (get_schedules): {e.message}")
+        if "schedule_rules" in (e.message or ""):
+            raise HTTPException(
+                status_code=503,
+                detail="Schedule storage is not initialized. Run backend/supabase_schema_patch.sql in Supabase."
+            )
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -413,6 +418,11 @@ def create_schedule_rule(rule: ScheduleCreate):
         return res.data[0]
     except APIError as e:
         print(f"SUPABASE ERROR (create_schedule_rule): {e.message}")
+        if "schedule_rules" in (e.message or ""):
+            raise HTTPException(
+                status_code=503,
+                detail="Schedule storage is not initialized. Run backend/supabase_schema_patch.sql in Supabase."
+            )
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -423,6 +433,11 @@ def delete_schedule_rule(schedule_id: str):
         return {"status": "success", "message": "Schedule rule deleted successfully"}
     except APIError as e:
         print(f"SUPABASE ERROR (delete_schedule_rule): {e.message}")
+        if "schedule_rules" in (e.message or ""):
+            raise HTTPException(
+                status_code=503,
+                detail="Schedule storage is not initialized. Run backend/supabase_schema_patch.sql in Supabase."
+            )
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 

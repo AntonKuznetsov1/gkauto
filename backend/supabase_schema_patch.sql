@@ -14,3 +14,5 @@ create table if not exists public.schedule_rules (
 insert into storage.buckets (id, name, public)
 values ('blog-images', 'blog-images', true)
 on conflict (id) do update set public = true;
+
+notify pgrst, 'reload schema';
