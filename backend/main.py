@@ -116,6 +116,7 @@ def get_services():
         res = supabase.table("services").select("*").order("created_at", desc=False).execute()
         return res.data
     except APIError as e:
+        print(f"SUPABASE ERROR (get_services): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -133,13 +134,17 @@ def create_service(service: ServiceCreate):
             raise HTTPException(status_code=400, detail="Failed to create service")
         return res.data[0]
     except APIError as e:
-        # Catch RLS violations (code 42501) or other database exceptions cleanly
+        # Print diagnostic info to server log console
+        print(f"SUPABASE INSERT ERROR: message={e.message} | code={e.code} | details={e.details} | hint={e.hint}")
         if e.code == "42501":
             raise HTTPException(
                 status_code=403, 
-                detail="Row-Level Security violation. Ensure SUPABASE_SERVICE_ROLE_KEY is set in environment."
+                detail="Row-Level Security violation. Ensure SUPABASE_SERVICE_ROLE_KEY is configured."
             )
-        raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
+        # Return detailed exception hint to frontend for easy debugging
+        hint_str = f" (Hint: {e.hint})" if e.hint else ""
+        details_str = f" - {e.details}" if e.details else ""
+        raise HTTPException(status_code=400, detail=f"Database error: {e.message}{details_str}{hint_str}")
 
 
 @app.put("/api/services/{service_id}")
@@ -158,6 +163,7 @@ def update_service(service_id: str, service: ServiceUpdate):
             raise HTTPException(status_code=404, detail="Service not found or update failed")
         return res.data[0]
     except APIError as e:
+        print(f"SUPABASE ERROR (update_service): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -167,6 +173,7 @@ def delete_service(service_id: str):
         res = supabase.table("services").delete().eq("id", service_id).execute()
         return {"status": "success", "message": "Service deleted successfully"}
     except APIError as e:
+        print(f"SUPABASE ERROR (delete_service): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -239,6 +246,7 @@ def get_availability(date: str = Query(..., description="Target date in YYYY-MM-
         final_slots.sort(key=time_sort_key)
         return final_slots
     except APIError as e:
+        print(f"SUPABASE ERROR (get_availability): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -264,6 +272,7 @@ def create_booking(booking: BookingCreate):
 
         return created_booking
     except APIError as e:
+        print(f"SUPABASE ERROR (create_booking): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -273,6 +282,7 @@ def get_bookings():
         res = supabase.table("bookings").select("*").order("created_at", desc=True).execute()
         return res.data
     except APIError as e:
+        print(f"SUPABASE ERROR (get_bookings): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -304,6 +314,7 @@ def update_booking_status(booking_id: str, status_payload: BookingStatusUpdate):
 
         return updated_booking
     except APIError as e:
+        print(f"SUPABASE ERROR (update_booking_status): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -332,6 +343,7 @@ def reachout_to_client(booking_id: str, payload: ClientReachoutRequest):
 
         return {"status": "success", "message": f"Email sent successfully to {booking['client_email']}"}
     except APIError as e:
+        print(f"SUPABASE ERROR (reachout_to_client): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -345,6 +357,7 @@ def get_schedules():
         res = supabase.table("schedules").select("*").order("created_at", desc=False).execute()
         return res.data
     except APIError as e:
+        print(f"SUPABASE ERROR (get_schedules): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -356,6 +369,7 @@ def create_schedule_rule(rule: ScheduleCreate):
             raise HTTPException(status_code=400, detail="Failed to create schedule rule")
         return res.data[0]
     except APIError as e:
+        print(f"SUPABASE ERROR (create_schedule_rule): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -365,6 +379,7 @@ def delete_schedule_rule(schedule_id: str):
         res = supabase.table("schedules").delete().eq("id", schedule_id).execute()
         return {"status": "success", "message": "Schedule rule deleted successfully"}
     except APIError as e:
+        print(f"SUPABASE ERROR (delete_schedule_rule): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -378,6 +393,7 @@ def get_blogs():
         res = supabase.table("blogs").select("*").order("created_at", desc=True).execute()
         return res.data
     except APIError as e:
+        print(f"SUPABASE ERROR (get_blogs): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -389,6 +405,7 @@ def create_blog(blog: BlogCreate):
             raise HTTPException(status_code=400, detail="Failed to create blog post")
         return res.data[0]
     except APIError as e:
+        print(f"SUPABASE ERROR (create_blog): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -398,6 +415,7 @@ def delete_blog(blog_id: str):
         res = supabase.table("blogs").delete().eq("id", blog_id).execute()
         return {"status": "success", "message": "Blog post deleted successfully"}
     except APIError as e:
+        print(f"SUPABASE ERROR (delete_blog): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
@@ -415,4 +433,5 @@ def toggle_blog_like(blog_id: str, payload: BlogLikeUpdate):
         update_res = supabase.table("blogs").update({"likes": new_likes}).eq("id", blog_id).execute()
         return update_res.data[0]
     except APIError as e:
+        print(f"SUPABASE ERROR (toggle_blog_like): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
