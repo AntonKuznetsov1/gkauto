@@ -32,14 +32,14 @@ export default function App() {
   const isAdminRoute = location.pathname.startsWith('/admin')
 
   return (
-    <div class="min-h-screen flex flex-col justify-between bg-slate-950 text-slate-100">
+    <div className="min-h-screen flex flex-col justify-between bg-slate-950 text-slate-100">
       <ScrollToTop />
 
       {/* Global Navigation - Rendered on all public routes */}
       {!isAdminRoute && <Nav />}
 
       {/* Main Content Area */}
-      <main class="flex-grow">
+      <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/booking" element={<Booking />} />

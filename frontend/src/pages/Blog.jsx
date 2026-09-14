@@ -10,8 +10,6 @@ import {
   Check
 } from 'lucide-react';
 import { getBlogs, toggleBlogLike } from '../api';
-  setBlogs(sorted.map((post) => ({ ...post, likes: Number(post.likes) || 0 })));
-            likes: isLikedLocally ? Math.max(0, Number(post.likes) - 1) : Number(post.likes) + 1
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
