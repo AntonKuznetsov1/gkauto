@@ -370,7 +370,7 @@ export default function Admin() {
           });
 
         if (uploadError) {
-          console.warn('Supabase storage upload error, falling back to placehold:', uploadError);
+          console.warn('Supabase storage upload error, falling back to placeholder:', uploadError);
         } else {
           const { data: publicUrlData } = supabase.storage
             .from('blog-images')
@@ -538,7 +538,7 @@ export default function Admin() {
               <Calendar className="w-4 h-4" />
               <span>2. Bookings &amp; Outreach</span>
               {bookings.filter(b => b.status === 'pending').length > 0 && (
-                <span className="ml-1 bg-[#70BAE6] text-white text-xs px-2 py-0.2 rounded-full">
+                <span className="ml-1 bg-[#70BAE6] text-white text-xs px-2 py-0.5 rounded-full">
                   {bookings.filter(b => b.status === 'pending').length}
                 </span>
               )}
@@ -593,12 +593,9 @@ export default function Admin() {
           </div>
         )}
 
-        {/* =================================================------------------ */}
-        {/* TAB 1: SERVICES MANAGEMENT                                          */}
-        {/* =================================================------------------ */}
+        {/* TAB 1: SERVICES MANAGEMENT */}
         {activeTab === 'services' && (
           <div className="space-y-6">
-            
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
               <div>
                 <h2 className="text-xl font-bold text-slate-900">Services Catalog</h2>
@@ -722,24 +719,18 @@ export default function Admin() {
                 </div>
               </div>
             )}
-
           </div>
         )}
 
-        {/* =================================================------------------ */}
-        {/* TAB 2: BOOKING MONITORING & CLIENT OUTREACH                         */}
-        {/* =================================================------------------ */}
+        {/* TAB 2: BOOKING MONITORING & CLIENT OUTREACH */}
         {activeTab === 'bookings' && (
           <div className="space-y-6">
-            
-            {/* Header & Filter Bar */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
               <div>
                 <h2 className="text-xl font-bold text-slate-900">Client Bookings Queue</h2>
                 <p className="text-sm text-slate-500">Monitor incoming appointments, adjust status, and trigger SMTP client emails.</p>
               </div>
 
-              {/* Filter Tabs */}
               <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
                 {['all', 'pending', 'confirmed', 'cancelled'].map((f) => (
                   <button
@@ -757,7 +748,6 @@ export default function Admin() {
               </div>
             </div>
 
-            {/* Bookings List / Table */}
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
               {filteredBookings.length === 0 ? (
                 <div className="p-12 text-center text-slate-400 text-sm">
@@ -856,7 +846,6 @@ export default function Admin() {
             {outreachModalOpen && selectedBookingForOutreach && (
               <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
                 <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 space-y-6">
-                  
                   <div className="flex items-center justify-between border-b pb-4">
                     <div className="flex items-center gap-2 text-[#70BAE6]">
                       <Send className="w-5 h-5" />
@@ -923,29 +912,22 @@ export default function Admin() {
                       </button>
                     </div>
                   </form>
-
                 </div>
               </div>
             )}
-
           </div>
         )}
 
-        {/* =================================================------------------ */}
-        {/* TAB 3: TIME SLOT & SCHEDULE CONFIGURATION                           */}
-        {/* =================================================------------------ */}
+        {/* TAB 3: TIME SLOT & SCHEDULE CONFIGURATION */}
         {activeTab === 'schedules' && (
           <div className="space-y-8">
-            
-            {/* Intro */}
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
               <h2 className="text-xl font-bold text-slate-900">Schedule &amp; Availability Matrix</h2>
               <p className="text-sm text-slate-500">Configure recurring daily appointment windows, weekly days off, and specific date blockouts.</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              
-              {/* Section 1: Recurring Time Slots */}
+              {/* Daily Recurring Slots */}
               <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6">
                 <div className="flex items-center gap-2 pb-4 border-b">
                   <Clock className="w-5 h-5 text-[#70BAE6]" />
@@ -984,7 +966,7 @@ export default function Admin() {
                 </div>
               </div>
 
-              {/* Section 2: Weekly Days Off */}
+              {/* Weekly Days Off Rules */}
               <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6">
                 <div className="flex items-center gap-2 pb-4 border-b">
                   <Calendar className="w-5 h-5 text-[#70BAE6]" />
@@ -1020,10 +1002,9 @@ export default function Admin() {
                   ))}
                 </div>
               </div>
-
             </div>
 
-            {/* Section 3: Specific Date Overrides */}
+            {/* Date Overrides & Holiday Closures */}
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6">
               <div className="flex items-center justify-between pb-4 border-b">
                 <div className="flex items-center gap-2">
@@ -1077,7 +1058,6 @@ export default function Admin() {
                 </div>
               </form>
 
-              {/* Date Overrides List */}
               <div className="space-y-2">
                 {dateOverrides.length === 0 ? (
                   <p className="text-xs text-slate-400 italic">No specific date overrides configured.</p>
@@ -1100,23 +1080,18 @@ export default function Admin() {
                 )}
               </div>
             </div>
-
           </div>
         )}
 
-        {/* =================================================------------------ */}
-        {/* TAB 4: BLOG POST EDITOR & SUPABASE STORAGE                          */}
-        {/* =================================================------------------ */}
+        {/* TAB 4: BLOG POST EDITOR & SUPABASE STORAGE */}
         {activeTab === 'blogs' && (
           <div className="space-y-8">
-            
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
               <h2 className="text-xl font-bold text-slate-900">Blog &amp; Knowledge Base Manager</h2>
               <p className="text-sm text-slate-500">Publish posts with direct Supabase Storage image bucket uploads (`blog-images`).</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              
               {/* Left Column: Creator Form */}
               <div className="lg:col-span-6 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6">
                 <h3 className="text-base font-bold text-slate-900 pb-3 border-b">Create New Blog Article</h3>
@@ -1224,14 +1199,10 @@ export default function Admin() {
                   )}
                 </div>
               </div>
-
             </div>
-
           </div>
         )}
-
       </main>
-
     </div>
   );
 }

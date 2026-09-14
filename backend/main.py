@@ -32,7 +32,7 @@ def clean_price(price_str: Optional[str]) -> Optional[float]:
     """
     Sanitizes price strings (e.g., '$25', '$25.00', '25.50') by stripping currency symbols
     and non-numeric characters so PostgreSQL NUMERIC fields accept the value.
-    Returns None safely if parsing fails rather than raising an unhandled ValueError.
+    Returns None safely if parsing fails or input is empty/blank.
     """
     if price_str is None:
         return None
@@ -126,11 +126,14 @@ def get_services():
 
 @app.post("/api/services", status_code=status.HTTP_201_CREATED)
 def create_service(service: ServiceCreate):
-    service_dict = {k: v for k, v in service.model_dump().items() if v is not None}
+    raw_dict = service.model_dump()
     
     # Sanitize price for database compatibility
-    if "price" in service_dict and service_dict["price"] is not None:
-        service_dict["price"] = clean_price(service_dict["price"])
+    if raw_dict.get("price") is not None:
+        raw_dict["price"] = clean_price(raw_dict["price"])
+
+    # Strip any None fields so optional fields aren't sent as explicit NULL to Supabase
+    service_dict = {k: v for k, v in raw_dict.items() if v is not None}
 
     try:
         res = supabase.table("services").insert(service_dict).execute()
@@ -153,13 +156,15 @@ def create_service(service: ServiceCreate):
 
 @app.put("/api/services/{service_id}")
 def update_service(service_id: str, service: ServiceUpdate):
-    update_data = {k: v for k, v in service.model_dump().items() if v is not None}
+    raw_dict = service.model_dump()
+
+    # Sanitize price if present in payload
+    if raw_dict.get("price") is not None:
+        raw_dict["price"] = clean_price(raw_dict["price"])
+
+    update_data = {k: v for k, v in raw_dict.items() if v is not None}
     if not update_data:
         raise HTTPException(status_code=400, detail="No fields provided for update")
-        
-    # Sanitize price if present in update payload
-    if "price" in update_data and update_data["price"] is not None:
-        update_data["price"] = clean_price(update_data["price"])
 
     try:
         res = supabase.table("services").update(update_data).eq("id", service_id).execute()
