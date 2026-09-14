@@ -187,7 +187,7 @@ export default function Admin() {
   };
 
   const handleSaveService = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     const apiBase = getApiBase();
 
     try {
@@ -356,7 +356,6 @@ export default function Admin() {
     let publicImageUrl = '';
 
     try {
-      // Step A: Upload image file to Supabase Storage if file is attached
       if (selectedBlogFile && supabase) {
         const fileExt = selectedBlogFile.name.split('.').pop();
         const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
@@ -379,7 +378,6 @@ export default function Admin() {
         }
       }
 
-      // Step B: Post metadata to FastAPI backend
       const apiBase = getApiBase();
       await axios.post(`${apiBase}/api/blogs`, {
         title: blogFormData.title,
@@ -494,6 +492,7 @@ export default function Admin() {
             {/* Quick Actions */}
             <div className="flex items-center gap-4">
               <button
+                type="button"
                 onClick={fetchAllAdminData}
                 disabled={loading}
                 className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 transition-all"
@@ -503,6 +502,7 @@ export default function Admin() {
               </button>
 
               <button
+                type="button"
                 onClick={() => setIsAuthenticated(false)}
                 className="inline-flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 px-3 py-1.5 rounded-lg border border-rose-500/20 transition-all"
               >
@@ -516,6 +516,7 @@ export default function Admin() {
           {/* 4 Switchable Tabs Navigation */}
           <nav className="flex space-x-1 overflow-x-auto pb-2 sm:pb-0">
             <button
+              type="button"
               onClick={() => setActiveTab('services')}
               className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${
                 activeTab === 'services'
@@ -528,6 +529,7 @@ export default function Admin() {
             </button>
 
             <button
+              type="button"
               onClick={() => setActiveTab('bookings')}
               className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${
                 activeTab === 'bookings'
@@ -545,6 +547,7 @@ export default function Admin() {
             </button>
 
             <button
+              type="button"
               onClick={() => setActiveTab('schedules')}
               className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${
                 activeTab === 'schedules'
@@ -557,6 +560,7 @@ export default function Admin() {
             </button>
 
             <button
+              type="button"
               onClick={() => setActiveTab('blogs')}
               className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${
                 activeTab === 'blogs'
@@ -587,7 +591,7 @@ export default function Admin() {
               {actionMessage.type === 'error' ? <AlertCircle className="w-5 h-5 shrink-0" /> : <CheckCircle2 className="w-5 h-5 shrink-0" />}
               <span>{actionMessage.text}</span>
             </div>
-            <button onClick={() => setActionMessage({ type: '', text: '' })}>
+            <button type="button" onClick={() => setActionMessage({ type: '', text: '' })}>
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -602,6 +606,7 @@ export default function Admin() {
                 <p className="text-sm text-slate-500">Add, update, or remove service offerings displayed on the public Home &amp; Booking pages.</p>
               </div>
               <button
+                type="button"
                 onClick={() => handleOpenServiceModal()}
                 className="inline-flex items-center justify-center gap-2 bg-[#70BAE6] hover:bg-[#58A6D3] text-white font-bold px-5 py-2.5 rounded-xl transition-all shadow-md shrink-0"
               >
@@ -633,6 +638,7 @@ export default function Admin() {
 
                   <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-end gap-2">
                     <button
+                      type="button"
                       onClick={() => handleOpenServiceModal(srv)}
                       className="inline-flex items-center gap-1 text-xs font-bold text-slate-700 hover:text-[#70BAE6] bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors"
                     >
@@ -640,6 +646,7 @@ export default function Admin() {
                       <span>Edit</span>
                     </button>
                     <button
+                      type="button"
                       onClick={() => handleDeleteService(srv.id)}
                       className="inline-flex items-center gap-1 text-xs font-bold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg transition-colors"
                     >
@@ -659,7 +666,7 @@ export default function Admin() {
                     <h3 className="text-lg font-bold text-slate-900">
                       {editingServiceId ? 'Edit Service Details' : 'Create New Service'}
                     </h3>
-                    <button onClick={() => setServiceModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                    <button type="button" onClick={() => setServiceModalOpen(false)} className="text-slate-400 hover:text-slate-600">
                       <X className="w-5 h-5" />
                     </button>
                   </div>
@@ -735,6 +742,7 @@ export default function Admin() {
                 {['all', 'pending', 'confirmed', 'cancelled'].map((f) => (
                   <button
                     key={f}
+                    type="button"
                     onClick={() => setBookingFilter(f)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-all ${
                       bookingFilter === f
@@ -807,6 +815,7 @@ export default function Admin() {
 
                           <td className="px-6 py-4 text-right space-x-2">
                             <button
+                              type="button"
                               onClick={() => handleOpenOutreachModal(b)}
                               className="inline-flex items-center gap-1 text-xs font-bold bg-[#70BAE6]/10 text-[#70BAE6] hover:bg-[#70BAE6] hover:text-white px-3 py-1.5 rounded-lg transition-all"
                             >
@@ -816,6 +825,7 @@ export default function Admin() {
 
                             {b.status !== 'confirmed' && (
                               <button
+                                type="button"
                                 onClick={() => handleUpdateBookingStatus(b.id, 'confirmed')}
                                 className="inline-flex items-center gap-1 text-xs font-bold bg-emerald-100 text-emerald-800 hover:bg-emerald-200 px-2.5 py-1.5 rounded-lg transition-colors"
                                 title="Confirm Booking"
@@ -826,6 +836,7 @@ export default function Admin() {
 
                             {b.status !== 'cancelled' && (
                               <button
+                                type="button"
                                 onClick={() => handleUpdateBookingStatus(b.id, 'cancelled')}
                                 className="inline-flex items-center gap-1 text-xs font-bold bg-rose-100 text-rose-800 hover:bg-rose-200 px-2.5 py-1.5 rounded-lg transition-colors"
                                 title="Cancel Booking"
@@ -851,7 +862,7 @@ export default function Admin() {
                       <Send className="w-5 h-5" />
                       <h3 className="text-lg font-bold text-slate-900">Send Client Outreach Email</h3>
                     </div>
-                    <button onClick={() => setOutreachModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                    <button type="button" onClick={() => setOutreachModalOpen(false)} className="text-slate-400 hover:text-slate-600">
                       <X className="w-5 h-5" />
                     </button>
                   </div>
@@ -956,6 +967,7 @@ export default function Admin() {
                     <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200 text-sm font-semibold text-slate-800">
                       <span>{slot}</span>
                       <button
+                        type="button"
                         onClick={() => handleDeleteRecurringSlot(idx)}
                         className="text-slate-400 hover:text-rose-600 transition-colors"
                       >
@@ -1072,7 +1084,7 @@ export default function Admin() {
                           <span className="bg-[#70BAE6]/20 text-[#70BAE6] px-2.5 py-0.5 rounded-full font-bold">Custom: {ov.custom_slot}</span>
                         )}
                       </div>
-                      <button onClick={() => handleDeleteDateOverride(ov.id)} className="text-slate-400 hover:text-rose-600">
+                      <button type="button" onClick={() => handleDeleteDateOverride(ov.id)} className="text-slate-400 hover:text-rose-600">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -1187,6 +1199,7 @@ export default function Admin() {
                           <div className="pt-2 flex items-center justify-between text-[11px] text-slate-400">
                             <span>Likes: {b.likes || 0}</span>
                             <button
+                              type="button"
                               onClick={() => handleDeleteBlog(b.id)}
                               className="text-rose-600 font-bold hover:underline"
                             >
