@@ -49,9 +49,10 @@ def clean_price(price_str: Optional[str]) -> Optional[float]:
 
 class ServiceCreate(BaseModel):
     title: str
-    description: str
+    description: Optional[str] = None
     price: Optional[str] = None
-    category: Optional[str] = "General"  # Default fallback if category is omitted
+    category: Optional[str] = None
+    duration_minutes: Optional[int] = None
 
 
 class ServiceUpdate(BaseModel):
@@ -59,6 +60,7 @@ class ServiceUpdate(BaseModel):
     description: Optional[str] = None
     price: Optional[str] = None
     category: Optional[str] = None
+    duration_minutes: Optional[int] = None
 
 
 class BookingCreate(BaseModel):
@@ -124,15 +126,11 @@ def get_services():
 
 @app.post("/api/services", status_code=status.HTTP_201_CREATED)
 def create_service(service: ServiceCreate):
-    service_dict = service.model_dump()
+    service_dict = {k: v for k, v in service.model_dump().items() if v is not None}
     
     # Sanitize price for database compatibility
-    if service_dict.get("price") is not None:
+    if "price" in service_dict and service_dict["price"] is not None:
         service_dict["price"] = clean_price(service_dict["price"])
-
-    # Ensure category is never null/empty to satisfy NOT NULL database constraint
-    if not service_dict.get("category"):
-        service_dict["category"] = "General"
 
     try:
         res = supabase.table("services").insert(service_dict).execute()
