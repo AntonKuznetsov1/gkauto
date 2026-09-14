@@ -43,6 +43,12 @@ def clean_price(price_str: Optional[str]) -> Optional[float]:
         return None
 
 
+def make_blog_slug(title: str) -> str:
+    """Create a URL-safe, unique-enough slug for the required blogs.slug column."""
+    base_slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-") or "blog-post"
+    return f"{base_slug}-{int(datetime.utcnow().timestamp() * 1000)}"
+
+
 # ==========================================
 # PYDANTIC SCHEMAS
 # ==========================================
@@ -364,7 +370,7 @@ def reachout_to_client(booking_id: str, payload: ClientReachoutRequest):
 @app.get("/api/schedules")
 def get_schedules():
     try:
-        res = supabase.table("schedules").select("*").order("created_at", desc=False).execute()
+        res = supabase.table("schedules").select("*").execute()
         return res.data
     except APIError as e:
         print(f"SUPABASE ERROR (get_schedules): {e.message}")
@@ -374,7 +380,14 @@ def get_schedules():
 @app.post("/api/schedules", status_code=status.HTTP_201_CREATED)
 def create_schedule_rule(rule: ScheduleCreate):
     try:
-        res = supabase.table("schedules").insert(rule.model_dump()).execute()
+        rule_data = {key: value for key, value in rule.model_dump().items() if value is not None}
+        unsupported_fields = {"specific_date"} & rule_data.keys()
+        if unsupported_fields:
+            raise HTTPException(
+                status_code=400,
+                detail="Date-specific schedule overrides are not supported by the current schedules table."
+            )
+        res = supabase.table("schedules").insert(rule_data).execute()
         if not res.data:
             raise HTTPException(status_code=400, detail="Failed to create schedule rule")
         return res.data[0]
@@ -411,6 +424,7 @@ def get_blogs():
 def create_blog(blog: BlogCreate):
     try:
         blog_data = {key: value for key, value in blog.model_dump().items() if value is not None}
+        blog_data["slug"] = make_blog_slug(blog.title)
         res = supabase.table("blogs").insert(blog_data).execute()
         if not res.data:
             raise HTTPException(status_code=400, detail="Failed to create blog post")
