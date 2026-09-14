@@ -144,9 +144,10 @@ export default function Blog() {
                   id={post.id}
                   className="bg-slate-900/80 rounded-2xl border border-slate-800 overflow-hidden shadow-xl hover:border-slate-700/80 transition-all duration-300"
                 >
-                  {/* Article Cover Image (Supabase Storage URL) */}
-                  {post.image_url && (
-                    <div className="relative h-64 sm:h-80 w-full bg-slate-950 overflow-hidden">
+                  <div className="flex flex-col md:flex-row">
+                    {/* Article Cover Image (Supabase Storage URL) */}
+                    {post.image_url && (
+                    <div className="relative h-56 md:h-auto md:min-h-[320px] md:w-2/5 shrink-0 bg-slate-950 overflow-hidden">
                       <img
                         src={post.image_url}
                         alt={post.title}
@@ -155,10 +156,10 @@ export default function Blog() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />
                     </div>
-                  )}
+                    )}
 
-                  {/* Article Content Container */}
-                  <div className="p-6 sm:p-8">
+                    {/* Article Content Container */}
+                    <div className="flex-1 p-6 sm:p-8">
                     {/* Date Tag */}
                     <div className="flex items-center gap-2 text-xs text-slate-400 mb-3">
                       <Calendar className="w-3.5 h-3.5 text-[#70BAE6]" />
@@ -229,6 +230,7 @@ export default function Blog() {
                       </button>
                     </div>
 
+                    </div>
                   </div>
                 </article>
               );

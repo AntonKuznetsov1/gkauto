@@ -235,27 +235,27 @@ def get_availability(date: str = Query(..., description="Target date in YYYY-MM-
 
     try:
         # Check 1: Date Off Override
-        date_off_res = supabase.table("schedules").select("*") \
+        date_off_res = supabase.table("schedule_rules").select("*") \
             .eq("type", "date_off_override") \
             .eq("specific_date", date).execute()
         if date_off_res.data:
             return []
 
         # Check 2: Day Off Weekly
-        day_off_res = supabase.table("schedules").select("*") \
+        day_off_res = supabase.table("schedule_rules").select("*") \
             .eq("type", "day_off_weekly") \
             .eq("day_of_week", day_of_week).execute()
         if day_off_res.data:
             return []
 
         # Check 3: Base Recurring Slots
-        recurring_res = supabase.table("schedules").select("time_slot") \
+        recurring_res = supabase.table("schedule_rules").select("time_slot") \
             .eq("type", "recurring_slot").execute()
         
         available_slots = set([item["time_slot"] for item in recurring_res.data if item.get("time_slot")])
 
         # Check 4: Slot Overrides (Additions or Removals)
-        overrides_res = supabase.table("schedules").select("time_slot", "is_available") \
+        overrides_res = supabase.table("schedule_rules").select("time_slot", "is_available") \
             .eq("type", "slot_override") \
             .eq("specific_date", date).execute()
 
@@ -396,7 +396,7 @@ def reachout_to_client(booking_id: str, payload: ClientReachoutRequest):
 @app.get("/api/schedules")
 def get_schedules():
     try:
-        res = supabase.table("schedules").select("*").execute()
+        res = supabase.table("schedule_rules").select("*").order("created_at", desc=False).execute()
         return res.data
     except APIError as e:
         print(f"SUPABASE ERROR (get_schedules): {e.message}")
@@ -407,7 +407,7 @@ def get_schedules():
 def create_schedule_rule(rule: ScheduleCreate):
     try:
         rule_data = {key: value for key, value in rule.model_dump().items() if value is not None}
-        res = supabase.table("schedules").insert(rule_data).execute()
+        res = supabase.table("schedule_rules").insert(rule_data).execute()
         if not res.data:
             raise HTTPException(status_code=400, detail="Failed to create schedule rule")
         return res.data[0]
@@ -419,7 +419,7 @@ def create_schedule_rule(rule: ScheduleCreate):
 @app.delete("/api/schedules/{schedule_id}")
 def delete_schedule_rule(schedule_id: str):
     try:
-        res = supabase.table("schedules").delete().eq("id", schedule_id).execute()
+        res = supabase.table("schedule_rules").delete().eq("id", schedule_id).execute()
         return {"status": "success", "message": "Schedule rule deleted successfully"}
     except APIError as e:
         print(f"SUPABASE ERROR (delete_schedule_rule): {e.message}")
