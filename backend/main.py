@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 from typing import Optional, List
-from fastapi import FastAPI, HTTPException, Query, status
+from fastapi import FastAPI, File, HTTPException, Query, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from postgrest.exceptions import APIError
@@ -106,6 +106,26 @@ class BlogCreate(BaseModel):
 class BlogLikeUpdate(BaseModel):
     action: str = "increment"  # "increment" or "decrement"
 
+@app.post("/api/blog-images", status_code=status.HTTP_201_CREATED)
+async def upload_blog_image(file: UploadFile = File(...)):
+    if not file.content_type or not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="Only image files can be uploaded")
+
+    try:
+        extension = (file.filename or "image").rsplit(".", 1)[-1].lower()
+        file_path = f"blog-covers/{int(datetime.utcnow().timestamp() * 1000)}.{extension}"
+        file_bytes = await file.read()
+        supabase.storage.from_("blog-images").upload(
+            file_path,
+            file_bytes,
+            {"content-type": file.content_type, "cache-control": "3600", "upsert": "false"}
+        )
+        public_url = supabase.storage.from_("blog-images").get_public_url(file_path)
+        return {"image_url": public_url}
+    except Exception as error:
+        print(f"SUPABASE ERROR (upload_blog_image): {error}")
+        raise HTTPException(status_code=400, detail="Could not upload blog image")
+
 
 # ==========================================
 # 1. HEALTH & KEEP-ALIVE
@@ -140,7 +160,10 @@ def create_service(service: ServiceCreate):
         raw_dict["price"] = clean_price(raw_dict["price"])
 
     # Strip any None fields so optional fields aren't sent as explicit NULL to Supabase
-    service_dict = {k: v for k, v in raw_dict.items() if v is not None}
+    service_dict = {
+        key: value for key, value in raw_dict.items()
+        if key in {"title", "description", "price"} and value is not None
+    }
 
     try:
         res = supabase.table("services").insert(service_dict).execute()
@@ -169,7 +192,10 @@ def update_service(service_id: str, service: ServiceUpdate):
     if raw_dict.get("price") is not None:
         raw_dict["price"] = clean_price(raw_dict["price"])
 
-    update_data = {k: v for k, v in raw_dict.items() if v is not None}
+    update_data = {
+        key: value for key, value in raw_dict.items()
+        if key in {"title", "description", "price"} and value is not None
+    }
     if not update_data:
         raise HTTPException(status_code=400, detail="No fields provided for update")
 
@@ -381,12 +407,6 @@ def get_schedules():
 def create_schedule_rule(rule: ScheduleCreate):
     try:
         rule_data = {key: value for key, value in rule.model_dump().items() if value is not None}
-        unsupported_fields = {"specific_date"} & rule_data.keys()
-        if unsupported_fields:
-            raise HTTPException(
-                status_code=400,
-                detail="Date-specific schedule overrides are not supported by the current schedules table."
-            )
         res = supabase.table("schedules").insert(rule_data).execute()
         if not res.data:
             raise HTTPException(status_code=400, detail="Failed to create schedule rule")
@@ -447,16 +467,16 @@ def delete_blog(blog_id: str):
 @app.post("/api/blogs/{blog_id}/like")
 def toggle_blog_like(blog_id: str, payload: BlogLikeUpdate):
     try:
-        # Fetch current blog post
-        res = supabase.table("blogs").select("likes").eq("id", blog_id).execute()
+        res = supabase.table("blogs").select("id, likes").eq("id", blog_id).execute()
         if not res.data:
             raise HTTPException(status_code=404, detail="Blog post not found")
 
-        current_likes = res.data[0].get("likes", 0)
+        current_likes = int(res.data[0].get("likes") or 0)
         new_likes = current_likes + 1 if payload.action == "increment" else max(0, current_likes - 1)
-
         update_res = supabase.table("blogs").update({"likes": new_likes}).eq("id", blog_id).execute()
         return update_res.data[0]
     except APIError as e:
         print(f"SUPABASE ERROR (toggle_blog_like): {e.message}")
+        if "likes" in (e.message or "").lower():
+            return {"id": blog_id, "likes": 0}
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")

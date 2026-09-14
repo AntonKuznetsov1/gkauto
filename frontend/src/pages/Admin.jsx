@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { createClient } from '@supabase/supabase-js';
 import {
   Wrench,
   Calendar,
@@ -29,11 +28,6 @@ import {
   ToggleLeft,
   ToggleRight
 } from 'lucide-react';
-
-// Initialize Supabase Client for Storage bucket file uploads
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
-const supabase = (supabaseUrl && supabaseAnonKey) ? createClient(supabaseUrl, supabaseAnonKey) : null;
 
 export default function Admin() {
   // Passcode / Auth State
@@ -215,7 +209,7 @@ export default function Admin() {
       fetchAllAdminData();
     } catch (err) {
       console.error('Error saving service:', err);
-      showMessage('error', 'Failed to save service.');
+      showMessage('error', err.response?.data?.detail || err.message || 'Failed to save service.');
     }
   };
 
@@ -394,32 +388,17 @@ export default function Admin() {
     }
 
     setIsUploadingBlog(true);
-    let publicImageUrl = '';
+    let publicImageUrl = null;
 
     try {
-      if (selectedBlogFile && supabase) {
-        const fileExt = selectedBlogFile.name.split('.').pop();
-        const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
-        const filePath = `blog-covers/${fileName}`;
-
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('blog-images')
-          .upload(filePath, selectedBlogFile, {
-            cacheControl: '3600',
-            upsert: false
-          });
-
-        if (uploadError) {
-          throw new Error(`Image upload failed: ${uploadError.message}`);
-        } else {
-          const { data: publicUrlData } = supabase.storage
-            .from('blog-images')
-            .getPublicUrl(filePath);
-          publicImageUrl = publicUrlData?.publicUrl || '';
-        }
+      const apiBase = getApiBase();
+      if (selectedBlogFile) {
+        const imageForm = new FormData();
+        imageForm.append('file', selectedBlogFile);
+        const uploadResponse = await axios.post(`${apiBase}/api/blog-images`, imageForm);
+        publicImageUrl = uploadResponse.data?.image_url || null;
       }
 
-      const apiBase = getApiBase();
       await axios.post(`${apiBase}/api/blogs`, {
         title: blogFormData.title,
         content: blogFormData.content.trim() || null,
@@ -433,7 +412,7 @@ export default function Admin() {
       fetchAllAdminData();
     } catch (err) {
       console.error('Error creating blog post:', err);
-      showMessage('error', 'Failed to publish blog post.');
+      showMessage('error', err.response?.data?.detail || err.message || 'Failed to publish blog post.');
     } finally {
       setIsUploadingBlog(false);
     }

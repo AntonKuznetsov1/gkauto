@@ -10,6 +10,8 @@ import {
   Check
 } from 'lucide-react';
 import { getBlogs, toggleBlogLike } from '../api';
+  setBlogs(sorted.map((post) => ({ ...post, likes: Number(post.likes) || 0 })));
+            likes: isLikedLocally ? Math.max(0, Number(post.likes) - 1) : Number(post.likes) + 1
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
@@ -30,7 +32,7 @@ export default function Blog() {
         const sorted = (Array.isArray(data) ? data : []).sort(
           (a, b) => new Date(b.created_at) - new Date(a.created_at)
         );
-        setBlogs(sorted);
+        setBlogs(sorted.map((post) => ({ ...post, likes: Number(post.likes) || 0 })));
       } catch (err) {
         console.warn('Could not load blog articles:', err);
         setError('Could not load blog articles right now.');
@@ -55,7 +57,7 @@ export default function Blog() {
         if (post.id === blogId) {
           return {
             ...post,
-            likes: isLikedLocally ? Math.max(0, post.likes - 1) : post.likes + 1
+            likes: isLikedLocally ? Math.max(0, Number(post.likes) - 1) : Number(post.likes) + 1
           };
         }
         return post;
