@@ -11,6 +11,8 @@ create table if not exists public.schedule_rules (
 	created_at timestamptz not null default now()
 );
 
+grant select, insert, delete on public.schedule_rules to anon, authenticated, service_role;
+
 insert into storage.buckets (id, name, public)
 values ('blog-images', 'blog-images', true)
 on conflict (id) do update set public = true;

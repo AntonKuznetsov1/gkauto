@@ -150,7 +150,7 @@ export default function Admin() {
       }
     } catch (err) {
       console.error(`Error fetching data for tab ${activeTab}:`, err);
-      showMessage('error', `Failed to load ${activeTab} data from backend.`);
+      showMessage('error', err.response?.data?.detail || `Failed to load ${activeTab} data from backend.`);
     } finally {
       setLoading(false);
     }
@@ -296,7 +296,7 @@ export default function Admin() {
       fetchAllAdminData();
     } catch (err) {
       console.error('Error adding recurring slot:', err);
-      showMessage('error', 'Failed to add time slot.');
+      showMessage('error', err.response?.data?.detail || 'Failed to add time slot.');
     }
   };
 
@@ -334,7 +334,7 @@ export default function Admin() {
       fetchAllAdminData();
     } catch (err) {
       console.error('Error updating weekly day off:', err);
-      showMessage('error', 'Failed to update weekly hours.');
+      showMessage('error', err.response?.data?.detail || 'Failed to update weekly hours.');
     }
   };
 
