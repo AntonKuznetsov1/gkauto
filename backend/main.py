@@ -51,12 +51,14 @@ class ServiceCreate(BaseModel):
     title: str
     description: str
     price: Optional[str] = None
+    category: Optional[str] = "General"  # Default fallback if category is omitted
 
 
 class ServiceUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     price: Optional[str] = None
+    category: Optional[str] = None
 
 
 class BookingCreate(BaseModel):
@@ -127,6 +129,10 @@ def create_service(service: ServiceCreate):
     # Sanitize price for database compatibility
     if service_dict.get("price") is not None:
         service_dict["price"] = clean_price(service_dict["price"])
+
+    # Ensure category is never null/empty to satisfy NOT NULL database constraint
+    if not service_dict.get("category"):
+        service_dict["category"] = "General"
 
     try:
         res = supabase.table("services").insert(service_dict).execute()
