@@ -82,7 +82,7 @@ export default function Home() {
             </h1>
 
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
-              Expert detailing, paint protection, tinting, and audio upgrades for drivers who care how every mile feels.
+              Expert detailing, paint protection, tinting, stereo installation, and audio upgrades for drivers who care how every mile feels.
             </p>
 
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
