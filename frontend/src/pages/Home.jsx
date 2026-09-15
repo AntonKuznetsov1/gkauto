@@ -284,8 +284,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Hours of Operation</h4>
-                  <p className="text-sm font-semibold text-slate-800">Monday – Saturday: 8:00 AM – 6:00 PM</p>
-                  <p className="text-xs text-slate-500">Sunday: Closed</p>
+                  <p className="text-sm font-semibold text-slate-800">Contact us for current availability.</p>
                 </div>
               </div>
 
