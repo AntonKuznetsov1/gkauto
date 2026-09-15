@@ -62,106 +62,64 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       
       {/* ========================================== */}
-      {/* 1. HERO SECTION (MINIMALIST STUDIO LAYOUT) */}
+      {/* 1. HERO SECTION                            */}
+      {/* Replace the previous Section 1 block with this section. */}
       {/* ========================================== */}
-      <section className="relative overflow-hidden bg-slate-50 via-white to-slate-50 border-b border-slate-200/80 pt-16 pb-16 lg:pt-24 lg:pb-20">
-        
-        {/* Subtle Radial Micro-Dot Grid Pattern Overlay (< 5% Opacity) */}
-        <div 
-          className="absolute inset-0 opacity-[0.035] pointer-events-none"
-          style={{
-            backgroundImage: `radial-gradient(#0f172a 1px, transparent 1px)`,
-            backgroundSize: '24px 24px'
-          }}
-        />
+      <section className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-slate-50 via-white to-slate-50 pt-16 pb-12 sm:pt-20 lg:pt-24 lg:pb-16">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:linear-gradient(#70BAE6_1px,transparent_1px),linear-gradient(90deg,#70BAE6_1px,transparent_1px)] [background-size:32px_32px]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#70BAE6]/[0.06] to-transparent" />
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          
-          {/* Eyebrow Badge */}
-          <div className="inline-flex items-center gap-2 bg-white border border-slate-200/90 shadow-xs px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider text-slate-700 uppercase mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-[#70BAE6]" />
-            <span>Calgary's Automotive &amp; Audio Specialists</span>
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#70BAE6]/30 bg-white/80 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#58A6D3] shadow-sm">
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>Calgary&apos;s Automotive &amp; Audio Specialists</span>
+            </div>
+
+            <h1 className="mt-7 text-4xl font-black leading-[1.05] tracking-tight text-slate-900 sm:text-6xl">
+              <span className="text-[#70BAE6]">Custom Stereo</span> &amp; Precision Detailing
+            </h1>
+
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
+              Expert detailing, paint protection, tinting, and audio upgrades for drivers who care how every mile feels.
+            </p>
+
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link
+                to="/booking"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#70BAE6] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#70BAE6]/25 transition-all hover:-translate-y-0.5 hover:bg-[#58A6D3] hover:shadow-xl hover:shadow-[#70BAE6]/30 active:translate-y-0 sm:w-auto"
+              >
+                <span>Book Appointment</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <a
+                href="tel:4032938989"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white/70 px-7 py-3.5 text-sm font-bold text-slate-800 transition-colors hover:border-[#70BAE6] hover:text-[#58A6D3] sm:w-auto"
+              >
+                <Phone className="h-4 w-4 text-[#70BAE6]" />
+                <span>Call (403) 293-8989</span>
+              </a>
+            </div>
           </div>
 
-          {/* Main Headline (H1) */}
-          <h1 className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight leading-[1.08] mb-6">
-            Precision Detailing &amp;{' '}
-            <span className="text-[#70BAE6]">Custom Stereo</span> Craftsmanship
-          </h1>
-
-          {/* Subheading (Under 30 Words) */}
-          <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal mb-8">
-            From showroom-grade paint restoration and 3M protection to custom subwoofers and Apple CarPlay—engineered for every vehicle in Calgary.
-          </p>
-
-          {/* Action Button Row */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-md mx-auto mb-16">
-            <Link
-              to="/booking"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-[#70BAE6] hover:bg-[#58A6D3] text-slate-950 font-bold text-base px-7 py-3.5 rounded-xl shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5 active:translate-y-0"
-            >
-              <span>Book Appointment</span>
-              <ArrowRight className="w-4 h-4 text-slate-950" />
-            </Link>
-
-            <a
-              href="tel:4032938989"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-100/80 text-slate-800 font-semibold text-base px-7 py-3.5 rounded-xl border border-slate-200/90 hover:border-slate-300 transition-all shadow-xs"
-            >
-              <Phone className="w-4 h-4 text-[#70BAE6]" />
-              <span>Call (403) 293-8989</span>
-            </a>
+          <div className="mx-auto mt-14 grid max-w-5xl grid-cols-1 border-t border-slate-200 text-left sm:grid-cols-2 lg:grid-cols-4">
+            <div className="flex gap-3 border-b border-slate-200 py-5 sm:border-r sm:px-5 lg:border-b-0">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#70BAE6]/10 text-[#70BAE6]"><ShieldCheck className="h-4 w-4" /></div>
+              <div><p className="text-xs font-bold text-slate-900">100% Guaranteed Quality</p><p className="mt-1 text-xs leading-relaxed text-slate-500">Premium materials &amp; 3M protection.</p></div>
+            </div>
+            <div className="flex gap-3 border-b border-slate-200 py-5 sm:px-5 lg:border-b-0 lg:border-r">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#70BAE6]/10 text-[#70BAE6]"><Award className="h-4 w-4" /></div>
+              <div><p className="text-xs font-bold text-slate-900">Certified Audio &amp; Detailers</p><p className="mt-1 text-xs leading-relaxed text-slate-500">Expert craftsmanship on every build.</p></div>
+            </div>
+            <div className="flex gap-3 border-b border-slate-200 py-5 sm:border-r sm:px-5 lg:border-b-0">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#70BAE6]/10 text-[#70BAE6]"><MapPin className="h-4 w-4" /></div>
+              <div><p className="text-xs font-bold text-slate-900">Calgary Workshop</p><p className="mt-1 text-xs leading-relaxed text-slate-500">125- 7 Westwinds Cres NE.</p></div>
+            </div>
+            <div className="flex gap-3 py-5 sm:px-5">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#70BAE6]/10 text-[#70BAE6]"><Phone className="h-4 w-4" /></div>
+              <div><p className="text-xs font-bold text-slate-900">Direct Phone Support</p><p className="mt-1 text-xs leading-relaxed text-slate-500">(403) 293-8989</p></div>
+            </div>
           </div>
-
-          {/* Trust & Social Proof Bar */}
-          <div className="pt-10 border-t border-slate-200/80 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
-            
-            {/* Spec Item 1 */}
-            <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-white border border-slate-200/70 shadow-2xs">
-              <div className="p-2.5 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0 border border-[#70BAE6]/20">
-                <ShieldCheck className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-900 tracking-tight leading-tight truncate">100% Guaranteed Quality</p>
-                <p className="text-[11px] text-slate-500 truncate mt-0.5">Premium materials &amp; 3M film</p>
-              </div>
-            </div>
-
-            {/* Spec Item 2 */}
-            <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-white border border-slate-200/70 shadow-2xs">
-              <div className="p-2.5 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0 border border-[#70BAE6]/20">
-                <Award className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-900 tracking-tight leading-tight truncate">Certified Technicians</p>
-                <p className="text-[11px] text-slate-500 truncate mt-0.5">Master audio &amp; detailers</p>
-              </div>
-            </div>
-
-            {/* Spec Item 3 */}
-            <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-white border border-slate-200/70 shadow-2xs">
-              <div className="p-2.5 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0 border border-[#70BAE6]/20">
-                <MapPin className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-900 tracking-tight leading-tight truncate">Calgary Workshop</p>
-                <p className="text-[11px] text-slate-500 truncate mt-0.5">125- 7 Westwinds Cres NE</p>
-              </div>
-            </div>
-
-            {/* Spec Item 4 */}
-            <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-white border border-slate-200/70 shadow-2xs">
-              <div className="p-2.5 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0 border border-[#70BAE6]/20">
-                <Phone className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-900 tracking-tight leading-tight truncate">Direct Phone Support</p>
-                <p className="text-[11px] text-slate-500 truncate mt-0.5">(403) 293-8989</p>
-              </div>
-            </div>
-
-          </div>
-
         </div>
       </section>
 
