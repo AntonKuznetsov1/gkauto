@@ -62,142 +62,151 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       
       {/* ========================================== */}
-      {/* 1. HERO SECTION                            */}
+      {/* 1. HERO SECTION (REDESIGNED STUDIO LAYOUT) */}
       {/* ========================================== */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 pt-12 pb-20 lg:pt-20 lg:pb-28 border-b border-slate-100">
-        
-        {/* Subtle background glow graphics */}
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#70BAE6]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/2 -left-24 w-80 h-80 bg-[#70BAE6]/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="relative overflow-hidden bg-slate-900 text-slate-100 pt-16 pb-20 lg:pt-24 lg:pb-32 border-b border-slate-800">
+
+        {/* Micro-Dot Grid Pattern Background */}
+        <div 
+          className="absolute inset-0 opacity-15 pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(#70BAE6 1px, transparent 1px)`,
+            backgroundSize: '24px 24px'
+          }}
+        />
+
+        {/* Ambient Top Lighting Framing Grid */}
+        <div className="absolute top-0 right-1/4 w-full max-w-3xl h-96 bg-gradient-to-b from-[#70BAE6]/10 via-transparent to-transparent blur-2xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             {/* Left Content Column */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
               
               {/* Eyebrow Pill Badge */}
-              <div className="inline-flex items-center gap-2 bg-[#70BAE6]/10 border border-[#70BAE6]/20 px-4 py-2 rounded-full text-[#70BAE6] font-semibold text-xs sm:text-sm tracking-wide">
-                <Sparkles className="w-4 h-4 text-[#70BAE6]" />
-                <span>Calgary's Premier Auto Care &amp; Audio Specialists</span>
+              <div className="inline-flex items-center gap-2 bg-slate-800/80 backdrop-blur-md border border-slate-700/80 px-4 py-2 rounded-full text-[#70BAE6] font-semibold text-xs tracking-wider uppercase shadow-sm">
+                <Sparkles className="w-3.5 h-3.5 text-[#70BAE6]" />
+                <span>Calgary's Premier Auto Care &amp; Audio Studio</span>
               </div>
 
               {/* Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight">
+              <h1 className="text-4xl sm:text-6xl lg:text-6xl font-black text-white tracking-tight leading-[1.1]">
                 Precision Detailing &amp; <br className="hidden sm:inline" />
-                <span className="text-[#70BAE6]">Custom Stereo</span> Installation
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#70BAE6] via-[#8ecef5] to-white">
+                  Custom Stereo
+                </span> Craftsmanship
               </h1>
 
               {/* Subheading */}
-              <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                Elevate your driving experience. From showroom-quality interior and exterior detailing to 3M paint protection, window tinting, and high-performance audio systems—we bring expert craftsmanship to every vehicle.
+              <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                From showroom-grade interior and paint restoration to custom subwoofers, Apple CarPlay, and UV protective tinting—we engineer custom solutions for every vehicle.
               </p>
 
-              {/* Call to Action Buttons */}
+              {/* Action Buttons */}
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                 <Link
                   to="/booking"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#70BAE6] hover:bg-[#58A6D3] text-white font-bold text-base px-8 py-4 rounded-xl shadow-lg shadow-[#70BAE6]/25 hover:shadow-xl hover:shadow-[#70BAE6]/35 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-[#70BAE6] hover:bg-[#58A6D3] text-slate-950 font-bold text-base px-8 py-4 rounded-xl shadow-lg shadow-[#70BAE6]/20 hover:shadow-xl hover:shadow-[#70BAE6]/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
                 >
-                  <span>Book Your Service Now</span>
-                  <ArrowRight className="w-5 h-5" />
+                  <span>Book Service Appointment</span>
+                  <ArrowRight className="w-5 h-5 text-slate-950" />
                 </Link>
 
                 <a
-                  href="#services"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-semibold text-base px-8 py-4 rounded-xl border border-slate-200 hover:border-[#70BAE6] transition-all shadow-sm"
+                  href="tel:4032938989"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-slate-800/80 hover:bg-slate-800 text-white font-semibold text-base px-8 py-4 rounded-xl border border-slate-700 hover:border-[#70BAE6]/50 transition-all backdrop-blur-sm"
                 >
-                  <span>Explore Services</span>
+                  <Phone className="w-4 h-4 text-[#70BAE6]" />
+                  <span>Call (403) 293-8989</span>
                 </a>
               </div>
 
               {/* Trust Badges Bar */}
-              <div className="pt-8 border-t border-slate-200/80 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-                <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0">
+              <div className="pt-8 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-800/40 border border-slate-800/80 backdrop-blur-sm">
+                  <div className="p-2.5 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0 border border-[#70BAE6]/20">
                     <ShieldCheck className="w-5 h-5" />
                   </div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-900">100% Satisfaction</p>
-                    <p className="text-xs text-slate-500">Guaranteed Quality Care</p>
+                  <div className="text-left">
+                    <p className="text-xs font-bold text-white">100% Satisfaction</p>
+                    <p className="text-[11px] text-slate-400">Guaranteed Precision Work</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0">
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-800/40 border border-slate-800/80 backdrop-blur-sm">
+                  <div className="p-2.5 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0 border border-[#70BAE6]/20">
                     <Award className="w-5 h-5" />
                   </div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-900">Certified Technicians</p>
-                    <p className="text-xs text-slate-500">Years of Expert Service</p>
+                  <div className="text-left">
+                    <p className="text-xs font-bold text-white">Certified Technicians</p>
+                    <p className="text-[11px] text-slate-400">Master Installers &amp; Detailers</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0">
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-800/40 border border-slate-800/80 backdrop-blur-sm">
+                  <div className="p-2.5 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0 border border-[#70BAE6]/20">
                     <CheckCircle2 className="w-5 h-5" />
                   </div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-900">Premium Materials</p>
-                    <p className="text-xs text-slate-500">3M Film &amp; Top Audio Brands</p>
+                  <div className="text-left">
+                    <p className="text-xs font-bold text-white">Premium Materials</p>
+                    <p className="text-[11px] text-slate-400">3M Film &amp; Top Audio Brands</p>
                   </div>
                 </div>
               </div>
 
             </div>
 
-            {/* Right Visual Card */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-2xl bg-gradient-to-tr from-slate-900 to-slate-800 p-8 text-white shadow-2xl overflow-hidden border border-slate-700">
-                <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-[#70BAE6]/20 rounded-full blur-2xl pointer-events-none" />
+            {/* Right Visual Showcase Column */}
+            <div className="lg:col-span-5 relative">
+              <div className="relative rounded-2xl bg-slate-800/60 p-3 border border-slate-700/80 shadow-2xl backdrop-blur-sm overflow-hidden group">
                 
-                <div className="relative z-10 space-y-6">
-                  <div className="flex items-center justify-between border-b border-slate-700 pb-4">
-                    <div>
-                      <span className="text-xs font-bold tracking-widest text-[#70BAE6] uppercase">G&amp;K Auto Care</span>
-                      <h3 className="text-xl font-bold text-white">Featured Services Suite</h3>
-                    </div>
-                    <div className="p-2 bg-[#70BAE6]/20 rounded-xl">
-                      <Car className="w-6 h-6 text-[#70BAE6]" />
-                    </div>
-                  </div>
-
-                  <ul className="space-y-3 text-sm text-slate-300">
-                    <li className="flex items-center gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-[#70BAE6] shrink-0" />
-                      <span>Deep Steam Cleaning &amp; Leather Treatment</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-[#70BAE6] shrink-0" />
-                      <span>3M Clear Bra Paint Protection &amp; Swirl Polish</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-[#70BAE6] shrink-0" />
-                      <span>UV Ceramic Window Tinting (All Windows)</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-[#70BAE6] shrink-0" />
-                      <span>Subwoofer, Amp &amp; Apple CarPlay Installs</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-[#70BAE6] shrink-0" />
-                      <span>Cold-Weather 2-Way Remote Starters</span>
-                    </li>
-                  </ul>
-
-                  <div className="pt-4 bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex items-center justify-between">
-                    <div>
-                      <p className="text-xs text-slate-400">Ready to transform your ride?</p>
-                      <p className="text-sm font-bold text-white">Call (403) 293-8989</p>
-                    </div>
-                    <a
-                      href="tel:4032938989"
-                      className="bg-[#70BAE6] hover:bg-[#58A6D3] text-white p-2.5 rounded-lg transition-colors"
-                    >
-                      <Phone className="w-4 h-4" />
-                    </a>
+                {/* Main Visual Studio Display */}
+                <div className="relative rounded-xl overflow-hidden aspect-[4/3] bg-slate-950 border border-slate-800">
+                  <img
+                    src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1000&q=80"
+                    alt="G&K Auto Care Studio Bay"
+                    className="w-full h-full object-cover object-center opacity-85 group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                  
+                  {/* Status Live Indicator Tag */}
+                  <div className="absolute top-4 left-4 inline-flex items-center gap-2 bg-slate-900/90 border border-slate-700 px-3 py-1.5 rounded-full text-xs font-semibold text-white backdrop-blur-md">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Studio Bay Active</span>
                   </div>
                 </div>
+
+                {/* Floating Metrics Overlay Card */}
+                <div className="absolute top-8 -right-3 sm:-right-6 bg-slate-900/95 border border-slate-700/80 p-4 rounded-xl shadow-xl backdrop-blur-md max-w-[200px] hidden sm:block transform hover:-translate-y-1 transition-transform">
+                  <div className="flex items-center gap-1.5 text-amber-400 text-sm font-bold mb-1">
+                    <span>★ 5.0 Rating</span>
+                  </div>
+                  <p className="text-xs font-bold text-white">Calgary's Top Choice</p>
+                  <p className="text-[11px] text-slate-400 mt-0.5">100+ Vehicles Crafted &amp; Detailed Monthly</p>
+                </div>
+
+                {/* Quick Mobile Call Card */}
+                <div className="mt-3 bg-slate-900/90 border border-slate-700/80 p-4 rounded-xl flex items-center justify-between gap-4 backdrop-blur-md">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0 border border-[#70BAE6]/20">
+                      <Wrench className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Immediate Questions?</p>
+                      <p className="text-sm font-bold text-white">Direct Studio Line</p>
+                    </div>
+                  </div>
+                  
+                  <a
+                    href="tel:4032938989"
+                    className="inline-flex items-center gap-2 bg-[#70BAE6] hover:bg-[#58A6D3] text-slate-950 px-3.5 py-2.5 rounded-lg text-xs font-bold transition-colors shrink-0"
+                  >
+                    <Phone className="w-3.5 h-3.5" />
+                    <span>(403) 293-8989</span>
+                  </a>
+                </div>
+
               </div>
             </div>
 
