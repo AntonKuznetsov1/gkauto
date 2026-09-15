@@ -16,7 +16,7 @@ import {
   ShieldCheck,
   Car
 } from 'lucide-react';
-import { getServices, getAvailability } from '../api';
+import { getServices, getAvailability, createBooking } from '../api';
 
 export default function Booking() {
   const navigate = useNavigate();
@@ -145,24 +145,12 @@ export default function Booking() {
     };
 
     try {
-      const res = await fetch('/api/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.message || 'Failed to submit booking request.');
-      }
+      await createBooking(payload);
 
       setIsSuccess(true);
     } catch (err) {
-      console.warn('Error during booking API dispatch, triggering mock success state:', err);
-      // Simulate successful client confirmation and email dispatch flow
-      setTimeout(() => {
-        setIsSuccess(true);
-      }, 800);
+      console.warn('Error during booking API dispatch:', err);
+      setErrorMsg(err.message || 'We could not submit your booking. Please try again.');
     } finally {
       setSubmitting(false);
     }

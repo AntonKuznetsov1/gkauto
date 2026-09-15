@@ -49,6 +49,15 @@ def make_blog_slug(title: str) -> str:
     return f"{base_slug}-{int(datetime.utcnow().timestamp() * 1000)}"
 
 
+def get_booking_start_time(time_slot: str) -> str:
+    """Convert a displayed range such as '01:00 PM - 03:00 PM' to SQL time."""
+    start_text = time_slot.split("-")[0].strip()
+    try:
+        return datetime.strptime(start_text, "%I:%M %p").strftime("%H:%M:%S")
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid time slot format")
+
+
 # ==========================================
 # PYDANTIC SCHEMAS
 # ==========================================
@@ -295,8 +304,23 @@ def get_availability(date: str = Query(..., description="Target date in YYYY-MM-
 
 @app.post("/api/bookings", status_code=status.HTTP_201_CREATED)
 def create_booking(booking: BookingCreate):
-    booking_dict = booking.model_dump()
-    booking_dict["status"] = "pending"
+    booking_dict = {
+        "customer_name": booking.client_name,
+        "customer_email": str(booking.client_email),
+        "customer_phone": booking.client_phone,
+        "service_id": booking.service_id,
+        "service_title": booking.service_title,
+        "booking_date": booking.booking_date,
+        "booking_time": get_booking_start_time(booking.time_slot),
+        "time_slot": booking.time_slot,
+        "client_name": booking.client_name,
+        "client_email": str(booking.client_email),
+        "client_phone": booking.client_phone,
+        "message": booking.message,
+        "notes": booking.message,
+        "status": "pending"
+    }
+    booking_dict = {key: value for key, value in booking_dict.items() if value is not None}
     
     try:
         res = supabase.table("bookings").insert(booking_dict).execute()
@@ -307,13 +331,13 @@ def create_booking(booking: BookingCreate):
 
         # Trigger Automated Email Notification to Business Owner
         admin_html = generate_new_booking_admin_email(created_booking)
-        send_email(
+        email_sent = send_email(
             to_email=OWNER_EMAIL,
             subject=f"New Booking: {created_booking['service_title']} - {created_booking['client_name']}",
             html_body=admin_html
         )
 
-        return created_booking
+        return {**created_booking, "email_sent": email_sent}
     except APIError as e:
         print(f"SUPABASE ERROR (create_booking): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
