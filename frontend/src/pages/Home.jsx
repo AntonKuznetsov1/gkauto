@@ -66,19 +66,19 @@ export default function Home() {
       {/* Replace the previous Section 1 block with this section. */}
       {/* ========================================== */}
       <section className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-slate-50 via-white to-slate-50 pt-16 pb-12 sm:pt-20 lg:pt-24 lg:pb-16">
-        <div className="pointer-events-none absolute inset-0 opacity-[0.07] [background-image:linear-gradient(#70BAE6_1px,transparent_1px),linear-gradient(90deg,#70BAE6_1px,transparent_1px)] [background-size:32px_32px]" />
-        <div className="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:repeating-linear-gradient(135deg,transparent,transparent_18px,#70BAE6_19px,transparent_20px)]" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#70BAE6]/[0.1] via-[#70BAE6]/[0.03] to-transparent" />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.07] [background-image:linear-gradient(#1687B5_1px,transparent_1px),linear-gradient(90deg,#1687B5_1px,transparent_1px)] [background-size:32px_32px]" />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:repeating-linear-gradient(135deg,transparent,transparent_18px,#1687B5_19px,transparent_20px)]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#1687B5]/[0.1] via-[#1687B5]/[0.03] to-transparent" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#70BAE6]/30 bg-white/80 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#58A6D3] shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#1687B5]/30 bg-white/80 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#0F6F98] shadow-sm">
               <Sparkles className="h-3.5 w-3.5" />
               <span>Calgary&apos;s Automotive &amp; Audio Specialists</span>
             </div>
 
             <h1 className="mt-7 text-4xl font-black leading-[1.05] tracking-tight text-slate-900 sm:text-6xl">
-              <span className="text-[#70BAE6]">Custom Stereo</span> &amp; Precision Detailing
+              <span className="text-[#1687B5]">Custom Stereo</span> &amp; Precision Detailing
             </h1>
 
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
@@ -88,16 +88,16 @@ export default function Home() {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 to="/booking"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#70BAE6] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#70BAE6]/25 transition-all hover:-translate-y-0.5 hover:bg-[#58A6D3] hover:shadow-xl hover:shadow-[#70BAE6]/30 active:translate-y-0 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#1687B5] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#1687B5]/25 transition-all hover:-translate-y-0.5 hover:bg-[#0F6F98] hover:shadow-xl hover:shadow-[#1687B5]/30 active:translate-y-0 sm:w-auto"
               >
                 <span>Book Appointment</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <a
                 href="tel:4032938989"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white/70 px-7 py-3.5 text-sm font-bold text-slate-800 transition-colors hover:border-[#70BAE6] hover:text-[#58A6D3] sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white/70 px-7 py-3.5 text-sm font-bold text-slate-800 transition-colors hover:border-[#1687B5] hover:text-[#0F6F98] sm:w-auto"
               >
-                <Phone className="h-4 w-4 text-[#70BAE6]" />
+                <Phone className="h-4 w-4 text-[#1687B5]" />
                 <span>Call (403) 293-8989</span>
               </a>
             </div>
@@ -105,19 +105,19 @@ export default function Home() {
 
           <div className="mx-auto mt-14 grid max-w-5xl grid-cols-1 border-t border-slate-200 text-left sm:grid-cols-2 lg:grid-cols-4">
             <div className="flex gap-3 border-b border-slate-200 py-5 sm:border-r sm:px-5 lg:border-b-0">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#70BAE6]/10 text-[#70BAE6]"><ShieldCheck className="h-4 w-4" /></div>
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#1687B5]/10 text-[#1687B5]"><ShieldCheck className="h-4 w-4" /></div>
               <div><p className="text-xs font-bold text-slate-900">100% Guaranteed Quality</p><p className="mt-1 text-xs leading-relaxed text-slate-500">Premium materials &amp; 3M protection.</p></div>
             </div>
             <div className="flex gap-3 border-b border-slate-200 py-5 sm:px-5 lg:border-b-0 lg:border-r">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#70BAE6]/10 text-[#70BAE6]"><Award className="h-4 w-4" /></div>
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#1687B5]/10 text-[#1687B5]"><Award className="h-4 w-4" /></div>
               <div><p className="text-xs font-bold text-slate-900">Certified Audio &amp; Detailers</p><p className="mt-1 text-xs leading-relaxed text-slate-500">Expert craftsmanship on every build.</p></div>
             </div>
             <div className="flex gap-3 border-b border-slate-200 py-5 sm:border-r sm:px-5 lg:border-b-0">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#70BAE6]/10 text-[#70BAE6]"><MapPin className="h-4 w-4" /></div>
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#1687B5]/10 text-[#1687B5]"><MapPin className="h-4 w-4" /></div>
               <div><p className="text-xs font-bold text-slate-900">Calgary Workshop</p><p className="mt-1 text-xs leading-relaxed text-slate-500">125- 7 Westwinds Cres NE.</p></div>
             </div>
             <div className="flex gap-3 py-5 sm:px-5">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#70BAE6]/10 text-[#70BAE6]"><Phone className="h-4 w-4" /></div>
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#1687B5]/10 text-[#1687B5]"><Phone className="h-4 w-4" /></div>
               <div><p className="text-xs font-bold text-slate-900">Direct Phone Support</p><p className="mt-1 text-xs leading-relaxed text-slate-500">(403) 293-8989</p></div>
             </div>
           </div>
@@ -132,7 +132,7 @@ export default function Home() {
           
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <h2 className="text-xs font-extrabold text-[#70BAE6] uppercase tracking-widest">
+            <h2 className="text-xs font-extrabold text-[#1687B5] uppercase tracking-widest">
               Our Expertise
             </h2>
             <p className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -146,7 +146,7 @@ export default function Home() {
           {/* Loading Indicator */}
           {isLoading && (
             <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#70BAE6]" />
+              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#1687B5]" />
             </div>
           )}
 
@@ -164,13 +164,13 @@ export default function Home() {
                 return (
                   <div
                     key={service.id || index}
-                    className="group bg-white rounded-2xl p-7 border border-slate-200 hover:border-[#70BAE6] hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden"
+                    className="group bg-white rounded-2xl p-7 border border-slate-200 hover:border-[#1687B5] hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden"
                   >
                     <div className="space-y-4">
                       
                       {/* Top Card Icon Badge */}
                       <div className="flex items-center justify-between">
-                        <div className="p-3.5 rounded-xl bg-[#70BAE6]/10 text-[#70BAE6] group-hover:bg-[#70BAE6] group-hover:text-white transition-colors duration-300">
+                        <div className="p-3.5 rounded-xl bg-[#1687B5]/10 text-[#1687B5] group-hover:bg-[#1687B5] group-hover:text-white transition-colors duration-300">
                           <IconComponent className="w-6 h-6" />
                         </div>
                         {service.price && (
@@ -181,7 +181,7 @@ export default function Home() {
                       </div>
 
                       {/* Title & Description */}
-                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#70BAE6] transition-colors">
+                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#1687B5] transition-colors">
                         {service.title}
                       </h3>
 
@@ -194,7 +194,7 @@ export default function Home() {
                     <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
                       <button
                         onClick={() => handleBookService(service.title)}
-                        className="inline-flex items-center gap-2 text-sm font-bold text-[#70BAE6] hover:text-[#58A6D3] transition-colors group/btn"
+                        className="inline-flex items-center gap-2 text-sm font-bold text-[#1687B5] hover:text-[#0F6F98] transition-colors group/btn"
                       >
                         <span>Book Service</span>
                         <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
@@ -219,7 +219,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <h2 className="text-xs font-extrabold text-[#70BAE6] uppercase tracking-widest">
+            <h2 className="text-xs font-extrabold text-[#1687B5] uppercase tracking-widest">
               Location &amp; Touchpoints
             </h2>
             <p className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -238,14 +238,14 @@ export default function Home() {
               {/* Phone Card */}
               <a
                 href="tel:4032938989"
-                className="flex items-start gap-4 p-5 bg-white rounded-xl border border-slate-200 hover:border-[#70BAE6] hover:shadow-md transition-all group"
+                className="flex items-start gap-4 p-5 bg-white rounded-xl border border-slate-200 hover:border-[#1687B5] hover:shadow-md transition-all group"
               >
-                <div className="p-3 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] group-hover:bg-[#70BAE6] group-hover:text-white transition-colors shrink-0">
+                <div className="p-3 rounded-lg bg-[#1687B5]/10 text-[#1687B5] group-hover:bg-[#1687B5] group-hover:text-white transition-colors shrink-0">
                   <Phone className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Phone Support</h4>
-                  <p className="text-lg font-bold text-slate-900 group-hover:text-[#70BAE6] transition-colors">(403) 293-8989</p>
+                  <p className="text-lg font-bold text-slate-900 group-hover:text-[#1687B5] transition-colors">(403) 293-8989</p>
                   <p className="text-xs text-slate-500">Call or text us for immediate service inquiries.</p>
                 </div>
               </a>
@@ -253,21 +253,21 @@ export default function Home() {
               {/* Email Card */}
               <a
                 href="mailto:gandkautodetailing1@gmail.com"
-                className="flex items-start gap-4 p-5 bg-white rounded-xl border border-slate-200 hover:border-[#70BAE6] hover:shadow-md transition-all group"
+                className="flex items-start gap-4 p-5 bg-white rounded-xl border border-slate-200 hover:border-[#1687B5] hover:shadow-md transition-all group"
               >
-                <div className="p-3 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] group-hover:bg-[#70BAE6] group-hover:text-white transition-colors shrink-0">
+                <div className="p-3 rounded-lg bg-[#1687B5]/10 text-[#1687B5] group-hover:bg-[#1687B5] group-hover:text-white transition-colors shrink-0">
                   <Mail className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Business Email</h4>
-                  <p className="text-lg font-bold text-slate-900 group-hover:text-[#70BAE6] transition-colors break-all">gandkautodetailing1@gmail.com</p>
+                  <p className="text-lg font-bold text-slate-900 group-hover:text-[#1687B5] transition-colors break-all">gandkautodetailing1@gmail.com</p>
                   <p className="text-xs text-slate-500">Send detailed quotes or specific project media.</p>
                 </div>
               </a>
 
               {/* Physical Address Card */}
               <div className="flex items-start gap-4 p-5 bg-white rounded-xl border border-slate-200">
-                <div className="p-3 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0">
+                <div className="p-3 rounded-lg bg-[#1687B5]/10 text-[#1687B5] shrink-0">
                   <MapPin className="w-6 h-6" />
                 </div>
                 <div>
@@ -279,7 +279,7 @@ export default function Home() {
 
               {/* Operating Hours Card */}
               <div className="flex items-start gap-4 p-5 bg-white rounded-xl border border-slate-200">
-                <div className="p-3 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6] shrink-0">
+                <div className="p-3 rounded-lg bg-[#1687B5]/10 text-[#1687B5] shrink-0">
                   <Clock className="w-6 h-6" />
                 </div>
                 <div>
@@ -294,7 +294,7 @@ export default function Home() {
             {/* Right Column: Direction & Fast Action Card */}
             <div className="lg:col-span-5 bg-slate-900 text-white rounded-2xl p-8 flex flex-col justify-between shadow-xl border border-slate-800 relative overflow-hidden">
               <div className="space-y-6 z-10">
-                <div className="inline-flex items-center gap-2 bg-[#70BAE6]/20 text-[#70BAE6] px-3 py-1 rounded-full text-xs font-semibold">
+                <div className="inline-flex items-center gap-2 bg-[#1687B5]/20 text-[#1687B5] px-3 py-1 rounded-full text-xs font-semibold">
                   <MapPin className="w-3.5 h-3.5" />
                   <span>Calgary Workshop</span>
                 </div>
@@ -312,7 +312,7 @@ export default function Home() {
                     href="https://maps.google.com/?q=125-+7+Westwinds+Cres+NE,+Calgary,+AB+T3J+5H2"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2 bg-[#70BAE6] hover:bg-[#58A6D3] text-white font-bold text-sm py-3.5 rounded-xl transition-all shadow-md"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-[#1687B5] hover:bg-[#0F6F98] text-white font-bold text-sm py-3.5 rounded-xl transition-all shadow-md"
                   >
                     <span>Get Directions on Google Maps</span>
                     <ExternalLink className="w-4 h-4" />
@@ -322,7 +322,7 @@ export default function Home() {
                     to="/booking"
                     className="w-full inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm py-3.5 rounded-xl border border-slate-700 transition-all"
                   >
-                    <Calendar className="w-4 h-4 text-[#70BAE6]" />
+                    <Calendar className="w-4 h-4 text-[#1687B5]" />
                     <span>Reserve Online Appointment</span>
                   </Link>
                 </div>
@@ -330,7 +330,7 @@ export default function Home() {
 
               <div className="mt-8 pt-6 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
                 <span>G&amp;K Auto Detailing &amp; Stereo</span>
-                <span className="text-[#70BAE6] font-semibold">Calgary, AB</span>
+                <span className="text-[#1687B5] font-semibold">Calgary, AB</span>
               </div>
             </div>
 

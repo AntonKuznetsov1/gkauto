@@ -8,8 +8,8 @@ export default {
     extend: {
       colors: {
         brand: {
-          primary: '#70BAE6',   // Sky Blue accent
-          primaryHover: '#58A6D3',
+          primary: '#1687B5',   // Ocean blue accent
+          primaryHover: '#0F6F98',
           dark: '#0F172A',      // Deep Slate text & dark surfaces
           surface: '#F8FAFC',   // Light Surface tint
           border: '#E2E8F0',    // Muted border gray

@@ -185,7 +185,7 @@ export default function Booking() {
         
         {/* Header Title */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#70BAE6]/10 text-[#70BAE6] text-sm font-medium mb-3 border border-[#70BAE6]/20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1687B5]/10 text-[#1687B5] text-sm font-medium mb-3 border border-[#1687B5]/20">
             <Car className="w-4 h-4" />
             <span>G&K Auto Detailing & Stereo</span>
           </div>
@@ -205,7 +205,7 @@ export default function Booking() {
               {/* Connector Progress Bar Line */}
               <div className="absolute top-5 sm:top-6 left-5 sm:left-6 right-5 sm:right-6 -translate-y-1/2 h-1 bg-slate-800 -z-0 rounded-full">
                 <div
-                  className="h-full bg-[#70BAE6] transition-all duration-300 ease-in-out rounded-full"
+                  className="h-full bg-[#1687B5] transition-all duration-300 ease-in-out rounded-full"
                   style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
                 />
               </div>
@@ -222,16 +222,16 @@ export default function Booking() {
                       onClick={() => setCurrentStep(step.number)}
                       className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-sm sm:text-base transition-all duration-200 ${
                         isCompleted
-                          ? 'bg-[#70BAE6] text-slate-950 ring-4 ring-slate-900'
+                          ? 'bg-[#1687B5] text-slate-950 ring-4 ring-slate-900'
                           : isActive
-                          ? 'bg-slate-950 text-[#70BAE6] border-2 border-[#70BAE6] ring-4 ring-[#70BAE6]/20'
+                          ? 'bg-slate-950 text-[#1687B5] border-2 border-[#1687B5] ring-4 ring-[#1687B5]/20'
                           : 'bg-slate-800 text-slate-400 border border-slate-700'
                       }`}
                     >
                       {isCompleted ? <Check className="w-5 h-5 stroke-[3]" /> : step.number}
                     </button>
                     <span className={`mt-2 text-xs sm:text-sm font-medium ${
-                      isActive ? 'text-[#70BAE6] font-semibold' : isCompleted ? 'text-slate-200' : 'text-slate-500'
+                      isActive ? 'text-[#1687B5] font-semibold' : isCompleted ? 'text-slate-200' : 'text-slate-500'
                     }`}>
                       {step.title}
                     </span>
@@ -266,7 +266,7 @@ export default function Booking() {
 
               {loadingServices ? (
                 <div className="py-16 flex flex-col items-center justify-center text-slate-400">
-                  <Loader2 className="w-8 h-8 animate-spin text-[#70BAE6] mb-3" />
+                  <Loader2 className="w-8 h-8 animate-spin text-[#1687B5] mb-3" />
                   <p className="text-sm">Fetching service packages...</p>
                 </div>
               ) : (
@@ -283,14 +283,14 @@ export default function Booking() {
                         onClick={() => setSelectedService(service)}
                         className={`cursor-pointer p-5 rounded-xl border transition-all duration-200 flex flex-col justify-between ${
                           isSelected
-                            ? 'bg-[#70BAE6]/10 border-[#70BAE6] ring-2 ring-[#70BAE6]/20'
+                            ? 'bg-[#1687B5]/10 border-[#1687B5] ring-2 ring-[#1687B5]/20'
                             : 'bg-slate-800/50 border-slate-700/80 hover:border-slate-600 hover:bg-slate-800'
                         }`}
                       >
                         <div>
                           <div className="flex items-start justify-between gap-2">
                             <h3 className="font-bold text-base text-white">{service.title}</h3>
-                            <span className="text-[#70BAE6] font-bold text-sm bg-[#70BAE6]/10 px-2.5 py-1 rounded-md border border-[#70BAE6]/20">
+                            <span className="text-[#1687B5] font-bold text-sm bg-[#1687B5]/10 px-2.5 py-1 rounded-md border border-[#1687B5]/20">
                               {service.price || 'Inquire'}
                             </span>
                           </div>
@@ -299,7 +299,7 @@ export default function Booking() {
                           </p>
                         </div>
                         <div className="mt-4 pt-3 border-t border-slate-700/50 flex items-center justify-end">
-                          <span className={`text-xs font-semibold flex items-center gap-1 ${isSelected ? 'text-[#70BAE6]' : 'text-slate-500'}`}>
+                          <span className={`text-xs font-semibold flex items-center gap-1 ${isSelected ? 'text-[#1687B5]' : 'text-slate-500'}`}>
                             {isSelected ? (
                               <>
                                 <CheckCircle className="w-4 h-4" /> Selected
@@ -320,7 +320,7 @@ export default function Booking() {
                   type="button"
                   disabled={!selectedService}
                   onClick={() => setCurrentStep(2)}
-                  className="px-6 py-3 rounded-xl bg-[#70BAE6] hover:bg-[#5aa8d8] text-slate-950 font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-6 py-3 rounded-xl bg-[#1687B5] hover:bg-[#0F6F98] text-slate-950 font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <span>Continue to Date Selection</span>
                   <ArrowRight className="w-4 h-4" />
@@ -360,13 +360,13 @@ export default function Booking() {
                         setSelectedDate(val);
                       }
                     }}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#70BAE6] focus:ring-1 focus:ring-[#70BAE6] transition-colors"
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#1687B5] focus:ring-1 focus:ring-[#1687B5] transition-colors"
                   />
                   <CalendarIcon className="w-5 h-5 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
 
                 {selectedDate && (
-                  <div className="mt-4 p-3 rounded-lg bg-[#70BAE6]/10 border border-[#70BAE6]/20 text-[#70BAE6] text-sm flex items-center gap-2">
+                  <div className="mt-4 p-3 rounded-lg bg-[#1687B5]/10 border border-[#1687B5]/20 text-[#1687B5] text-sm flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 shrink-0" />
                     <span>Date selected: <strong>{new Date(selectedDate + 'T00:00:00').toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</strong></span>
                   </div>
@@ -386,7 +386,7 @@ export default function Booking() {
                   type="button"
                   disabled={!selectedDate || isDateBlocked(selectedDate)}
                   onClick={() => setCurrentStep(3)}
-                  className="px-6 py-3 rounded-xl bg-[#70BAE6] hover:bg-[#5aa8d8] text-slate-950 font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-6 py-3 rounded-xl bg-[#1687B5] hover:bg-[#0F6F98] text-slate-950 font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <span>Check Available Times</span>
                   <ArrowRight className="w-4 h-4" />
@@ -407,7 +407,7 @@ export default function Booking() {
 
               {loadingSlots ? (
                 <div className="py-16 flex flex-col items-center justify-center text-slate-400">
-                  <Loader2 className="w-8 h-8 animate-spin text-[#70BAE6] mb-3" />
+                  <Loader2 className="w-8 h-8 animate-spin text-[#1687B5] mb-3" />
                   <p className="text-sm">Calculating slot availability with dynamic scheduler...</p>
                 </div>
               ) : availableSlots.length === 0 ? (
@@ -436,11 +436,11 @@ export default function Booking() {
                         onClick={() => setSelectedSlot(slot)}
                         className={`p-4 rounded-xl border text-center transition-all duration-200 font-semibold text-sm flex flex-col items-center justify-center gap-1 ${
                           isSelected
-                            ? 'bg-[#70BAE6] text-slate-950 border-[#70BAE6] shadow-lg shadow-[#70BAE6]/20'
+                            ? 'bg-[#1687B5] text-slate-950 border-[#1687B5] shadow-lg shadow-[#1687B5]/20'
                             : 'bg-slate-800/60 text-slate-200 border-slate-700/80 hover:bg-slate-800 hover:border-slate-600'
                         }`}
                       >
-                        <Clock className={`w-4 h-4 ${isSelected ? 'text-slate-950' : 'text-[#70BAE6]'}`} />
+                        <Clock className={`w-4 h-4 ${isSelected ? 'text-slate-950' : 'text-[#1687B5]'}`} />
                         <span>{slot}</span>
                       </button>
                     );
@@ -461,7 +461,7 @@ export default function Booking() {
                   type="button"
                   disabled={!selectedSlot}
                   onClick={() => setCurrentStep(4)}
-                  className="px-6 py-3 rounded-xl bg-[#70BAE6] hover:bg-[#5aa8d8] text-slate-950 font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-6 py-3 rounded-xl bg-[#1687B5] hover:bg-[#0F6F98] text-slate-950 font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <span>Proceed to Contact Info</span>
                   <ArrowRight className="w-4 h-4" />
@@ -483,7 +483,7 @@ export default function Booking() {
               {/* Order Summary Card */}
               <div className="bg-slate-800/40 p-4 rounded-xl border border-slate-700/60 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
                 <div>
-                  <div className="text-xs text-[#70BAE6] font-semibold uppercase tracking-wider">Booking Summary</div>
+                  <div className="text-xs text-[#1687B5] font-semibold uppercase tracking-wider">Booking Summary</div>
                   <div className="font-bold text-white text-base mt-0.5">{selectedService?.title}</div>
                   <div className="text-xs text-slate-400 mt-0.5">
                     {selectedDate} at {selectedSlot}
@@ -507,7 +507,7 @@ export default function Booking() {
                       placeholder="John Doe"
                       value={formData.fullName}
                       onChange={handleInputChange}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#70BAE6] focus:ring-1 focus:ring-[#70BAE6]"
+                      className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#1687B5] focus:ring-1 focus:ring-[#1687B5]"
                     />
                     <User className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   </div>
@@ -525,7 +525,7 @@ export default function Booking() {
                       placeholder="john@example.com"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#70BAE6] focus:ring-1 focus:ring-[#70BAE6]"
+                      className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#1687B5] focus:ring-1 focus:ring-[#1687B5]"
                     />
                     <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   </div>
@@ -543,7 +543,7 @@ export default function Booking() {
                       placeholder="(555) 000-0000"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#70BAE6] focus:ring-1 focus:ring-[#70BAE6]"
+                      className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#1687B5] focus:ring-1 focus:ring-[#1687B5]"
                     />
                     <Phone className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   </div>
@@ -560,7 +560,7 @@ export default function Booking() {
                       placeholder="Vehicle make/model, specific audio equipment specifications, or special requests..."
                       value={formData.notes}
                       onChange={handleInputChange}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#70BAE6] focus:ring-1 focus:ring-[#70BAE6]"
+                      className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#1687B5] focus:ring-1 focus:ring-[#1687B5]"
                     />
                     <MessageSquare className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                   </div>
@@ -579,7 +579,7 @@ export default function Booking() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-8 py-3 rounded-xl bg-[#70BAE6] hover:bg-[#5aa8d8] text-slate-950 font-bold transition-all disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-[#70BAE6]/20"
+                  className="px-8 py-3 rounded-xl bg-[#1687B5] hover:bg-[#0F6F98] text-slate-950 font-bold transition-all disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-[#1687B5]/20"
                 >
                   {submitting ? (
                     <>
@@ -600,7 +600,7 @@ export default function Booking() {
           {/* SUCCESS CONFIRMATION CARD */}
           {isSuccess && (
             <div className="py-8 px-4 text-center space-y-6">
-              <div className="w-20 h-20 rounded-full bg-[#70BAE6]/10 text-[#70BAE6] border-2 border-[#70BAE6]/30 flex items-center justify-center mx-auto shadow-xl">
+              <div className="w-20 h-20 rounded-full bg-[#1687B5]/10 text-[#1687B5] border-2 border-[#1687B5]/30 flex items-center justify-center mx-auto shadow-xl">
                 <CheckCircle className="w-10 h-10" />
               </div>
 
@@ -618,7 +618,7 @@ export default function Booking() {
                 </div>
                 <div className="flex justify-between border-b border-slate-800 pb-2">
                   <span className="text-slate-400">Date & Time:</span>
-                  <span className="font-semibold text-[#70BAE6]">{selectedDate} @ {selectedSlot}</span>
+                  <span className="font-semibold text-[#1687B5]">{selectedDate} @ {selectedSlot}</span>
                 </div>
                 <div className="flex justify-between border-b border-slate-800 pb-2">
                   <span className="text-slate-400">Contact Email:</span>
@@ -632,7 +632,7 @@ export default function Booking() {
 
               <div className="pt-4">
                 <p className="text-xs text-slate-500 mb-3">
-                  Redirecting to homepage in <strong className="text-[#70BAE6]">{redirectCountdown}</strong> seconds...
+                  Redirecting to homepage in <strong className="text-[#1687B5]">{redirectCountdown}</strong> seconds...
                 </p>
                 <button
                   onClick={() => navigate('/')}

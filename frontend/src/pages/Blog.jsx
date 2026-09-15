@@ -106,7 +106,7 @@ export default function Blog() {
         
         {/* Header Title */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#70BAE6]/10 text-[#70BAE6] text-sm font-medium mb-3 border border-[#70BAE6]/20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1687B5]/10 text-[#1687B5] text-sm font-medium mb-3 border border-[#1687B5]/20">
             <BookOpen className="w-4 h-4" />
             <span>G&K Journal & Knowledge Base</span>
           </div>
@@ -121,7 +121,7 @@ export default function Blog() {
         {/* Loading State */}
         {loading ? (
           <div className="py-20 flex flex-col items-center justify-center text-slate-400">
-            <Loader2 className="w-10 h-10 animate-spin text-[#70BAE6] mb-3" />
+            <Loader2 className="w-10 h-10 animate-spin text-[#1687B5] mb-3" />
             <p className="text-sm font-medium">Fetching latest articles...</p>
           </div>
         ) : blogs.length === 0 ? (
@@ -162,7 +162,7 @@ export default function Blog() {
                     <div className="flex-1 p-6 sm:p-8">
                     {/* Date Tag */}
                     <div className="flex items-center gap-2 text-xs text-slate-400 mb-3">
-                      <Calendar className="w-3.5 h-3.5 text-[#70BAE6]" />
+                      <Calendar className="w-3.5 h-3.5 text-[#1687B5]" />
                       <time dateTime={post.created_at}>{formatDate(post.created_at)}</time>
                     </div>
 
@@ -183,7 +183,7 @@ export default function Blog() {
                       <button
                         type="button"
                         onClick={() => toggleExpand(post.id)}
-                        className="mt-3 text-xs sm:text-sm font-semibold text-[#70BAE6] hover:underline inline-flex items-center gap-1 focus:outline-none"
+                        className="mt-3 text-xs sm:text-sm font-semibold text-[#1687B5] hover:underline inline-flex items-center gap-1 focus:outline-none"
                       >
                         <span>{isExpanded ? 'Read Less' : 'Read Full Article'}</span>
                         {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -198,13 +198,13 @@ export default function Blog() {
                         onClick={() => handleToggleLike(post.id)}
                         className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 border ${
                           isLiked
-                            ? 'bg-[#70BAE6]/10 text-[#70BAE6] border-[#70BAE6]/30'
+                            ? 'bg-[#1687B5]/10 text-[#1687B5] border-[#1687B5]/30'
                             : 'bg-slate-800/50 text-slate-400 border-slate-700/60 hover:text-white hover:bg-slate-800'
                         }`}
                       >
                         <Heart
                           className={`w-4 h-4 transition-transform ${
-                            isLiked ? 'fill-[#70BAE6] text-[#70BAE6] scale-110' : ''
+                            isLiked ? 'fill-[#1687B5] text-[#1687B5] scale-110' : ''
                           }`}
                         />
                         <span>{post.likes} {post.likes === 1 ? 'Like' : 'Likes'}</span>

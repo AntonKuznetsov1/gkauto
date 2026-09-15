@@ -454,7 +454,7 @@ export default function Admin() {
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 p-8">
           <div className="text-center space-y-4 mb-8">
-            <div className="inline-flex p-4 rounded-2xl bg-[#70BAE6]/10 text-[#70BAE6]">
+            <div className="inline-flex p-4 rounded-2xl bg-[#1687B5]/10 text-[#1687B5]">
               <Lock className="w-10 h-10" />
             </div>
             <h1 className="text-2xl font-bold text-white tracking-tight">
@@ -475,7 +475,7 @@ export default function Admin() {
                 placeholder="Enter passcode (Default: 1234)"
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-[#70BAE6] focus:ring-1 focus:ring-[#70BAE6] transition-all"
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-[#1687B5] focus:ring-1 focus:ring-[#1687B5] transition-all"
                 autoFocus
               />
             </div>
@@ -489,7 +489,7 @@ export default function Admin() {
 
             <button
               type="submit"
-              className="w-full bg-[#70BAE6] hover:bg-[#58A6D3] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#70BAE6]/20 transition-all flex items-center justify-center gap-2"
+              className="w-full bg-[#1687B5] hover:bg-[#0F6F98] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#1687B5]/20 transition-all flex items-center justify-center gap-2"
             >
               <ShieldCheck className="w-5 h-5" />
               <span>Unlock Admin Hub</span>
@@ -518,7 +518,7 @@ export default function Admin() {
             {/* Title & Badge */}
             <div className="flex items-center gap-3">
               <span className="font-black text-lg tracking-tight text-white">G&amp;K ADMIN</span>
-              <span className="bg-[#70BAE6]/20 text-[#70BAE6] text-xs font-bold px-2.5 py-0.5 rounded-full border border-[#70BAE6]/30">
+              <span className="bg-[#1687B5]/20 text-[#1687B5] text-xs font-bold px-2.5 py-0.5 rounded-full border border-[#1687B5]/30">
                 System Active
               </span>
             </div>
@@ -531,7 +531,7 @@ export default function Admin() {
                 disabled={loading}
                 className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 transition-all"
               >
-                <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#70BAE6]' : ''}`} />
+                <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#1687B5]' : ''}`} />
                 <span>Sync Data</span>
               </button>
 
@@ -554,7 +554,7 @@ export default function Admin() {
               onClick={() => setActiveTab('services')}
               className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${
                 activeTab === 'services'
-                  ? 'border-[#70BAE6] text-[#70BAE6]'
+                  ? 'border-[#1687B5] text-[#1687B5]'
                   : 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700'
               }`}
             >
@@ -567,14 +567,14 @@ export default function Admin() {
               onClick={() => setActiveTab('bookings')}
               className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${
                 activeTab === 'bookings'
-                  ? 'border-[#70BAE6] text-[#70BAE6]'
+                  ? 'border-[#1687B5] text-[#1687B5]'
                   : 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700'
               }`}
             >
               <Calendar className="w-4 h-4" />
               <span>2. Bookings &amp; Outreach</span>
               {bookings.filter(b => b.status === 'pending').length > 0 && (
-                <span className="ml-1 bg-[#70BAE6] text-white text-xs px-2 py-0.5 rounded-full">
+                <span className="ml-1 bg-[#1687B5] text-white text-xs px-2 py-0.5 rounded-full">
                   {bookings.filter(b => b.status === 'pending').length}
                 </span>
               )}
@@ -585,7 +585,7 @@ export default function Admin() {
               onClick={() => setActiveTab('schedules')}
               className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${
                 activeTab === 'schedules'
-                  ? 'border-[#70BAE6] text-[#70BAE6]'
+                  ? 'border-[#1687B5] text-[#1687B5]'
                   : 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700'
               }`}
             >
@@ -598,7 +598,7 @@ export default function Admin() {
               onClick={() => setActiveTab('blogs')}
               className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${
                 activeTab === 'blogs'
-                  ? 'border-[#70BAE6] text-[#70BAE6]'
+                  ? 'border-[#1687B5] text-[#1687B5]'
                   : 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700'
               }`}
             >
@@ -642,7 +642,7 @@ export default function Admin() {
               <button
                 type="button"
                 onClick={() => handleOpenServiceModal()}
-                className="inline-flex items-center justify-center gap-2 bg-[#70BAE6] hover:bg-[#58A6D3] text-white font-bold px-5 py-2.5 rounded-xl transition-all shadow-md shrink-0"
+                className="inline-flex items-center justify-center gap-2 bg-[#1687B5] hover:bg-[#0F6F98] text-white font-bold px-5 py-2.5 rounded-xl transition-all shadow-md shrink-0"
               >
                 <Plus className="w-5 h-5" />
                 <span>Add New Service</span>
@@ -652,10 +652,10 @@ export default function Admin() {
             {/* Services Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {services.map((srv) => (
-                <div key={srv.id} className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-[#70BAE6] transition-all">
+                <div key={srv.id} className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-[#1687B5] transition-all">
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="p-2.5 rounded-lg bg-[#70BAE6]/10 text-[#70BAE6]">
+                      <span className="p-2.5 rounded-lg bg-[#1687B5]/10 text-[#1687B5]">
                         <Wrench className="w-5 h-5" />
                       </span>
                       {srv.price ? (
@@ -674,7 +674,7 @@ export default function Admin() {
                     <button
                       type="button"
                       onClick={() => handleOpenServiceModal(srv)}
-                      className="inline-flex items-center gap-1 text-xs font-bold text-slate-700 hover:text-[#70BAE6] bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-slate-700 hover:text-[#1687B5] bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors"
                     >
                       <Edit className="w-3.5 h-3.5" />
                       <span>Edit</span>
@@ -714,7 +714,7 @@ export default function Admin() {
                         placeholder="e.g. 3M Paint Protection Film"
                         value={serviceFormData.title}
                         onChange={(e) => setServiceFormData({ ...serviceFormData, title: e.target.value })}
-                        className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#70BAE6]"
+                        className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#1687B5]"
                       />
                     </div>
 
@@ -725,7 +725,7 @@ export default function Admin() {
                         placeholder="e.g. Starting at $299 or leave blank"
                         value={serviceFormData.price}
                         onChange={(e) => setServiceFormData({ ...serviceFormData, price: e.target.value })}
-                        className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#70BAE6]"
+                        className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#1687B5]"
                       />
                     </div>
 
@@ -737,7 +737,7 @@ export default function Admin() {
                         placeholder="Provide a comprehensive breakdown of what this service includes..."
                         value={serviceFormData.description}
                         onChange={(e) => setServiceFormData({ ...serviceFormData, description: e.target.value })}
-                        className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#70BAE6]"
+                        className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#1687B5]"
                       />
                     </div>
 
@@ -751,7 +751,7 @@ export default function Admin() {
                       </button>
                       <button
                         type="submit"
-                        className="bg-[#70BAE6] hover:bg-[#58A6D3] text-white font-bold px-5 py-2 rounded-xl text-xs shadow"
+                        className="bg-[#1687B5] hover:bg-[#0F6F98] text-white font-bold px-5 py-2 rounded-xl text-xs shadow"
                       >
                         Save Service
                       </button>
@@ -813,15 +813,15 @@ export default function Admin() {
                           <td className="px-6 py-4">
                             <div className="font-bold text-slate-900">{b.client_name}</div>
                             <div className="text-xs text-slate-500">{b.client_email}</div>
-                            <div className="text-xs text-[#70BAE6] font-medium">{b.client_phone}</div>
+                            <div className="text-xs text-[#1687B5] font-medium">{b.client_phone}</div>
                           </td>
 
                           <td className="px-6 py-4">
                             <div className="font-semibold text-slate-800">{b.service_title}</div>
                             <div className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
-                              <Calendar className="w-3 h-3 text-[#70BAE6]" />
+                              <Calendar className="w-3 h-3 text-[#1687B5]" />
                               <span>{b.booking_date}</span>
-                              <Clock className="w-3 h-3 text-[#70BAE6] ml-1" />
+                              <Clock className="w-3 h-3 text-[#1687B5] ml-1" />
                               <span>{b.time_slot}</span>
                             </div>
                           </td>
@@ -851,7 +851,7 @@ export default function Admin() {
                             <button
                               type="button"
                               onClick={() => handleOpenOutreachModal(b)}
-                              className="inline-flex items-center gap-1 text-xs font-bold bg-[#70BAE6]/10 text-[#70BAE6] hover:bg-[#70BAE6] hover:text-white px-3 py-1.5 rounded-lg transition-all"
+                              className="inline-flex items-center gap-1 text-xs font-bold bg-[#1687B5]/10 text-[#1687B5] hover:bg-[#1687B5] hover:text-white px-3 py-1.5 rounded-lg transition-all"
                             >
                               <Mail className="w-3.5 h-3.5" />
                               <span>Reach Out</span>
@@ -892,7 +892,7 @@ export default function Admin() {
               <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
                 <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 space-y-6">
                   <div className="flex items-center justify-between border-b pb-4">
-                    <div className="flex items-center gap-2 text-[#70BAE6]">
+                    <div className="flex items-center gap-2 text-[#1687B5]">
                       <Send className="w-5 h-5" />
                       <h3 className="text-lg font-bold text-slate-900">Send Client Outreach Email</h3>
                     </div>
@@ -915,7 +915,7 @@ export default function Admin() {
                         required
                         value={outreachFormData.subject}
                         onChange={(e) => setOutreachFormData({ ...outreachFormData, subject: e.target.value })}
-                        className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#70BAE6]"
+                        className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#1687B5]"
                       />
                     </div>
 
@@ -926,7 +926,7 @@ export default function Admin() {
                         rows={6}
                         value={outreachFormData.message}
                         onChange={(e) => setOutreachFormData({ ...outreachFormData, message: e.target.value })}
-                        className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#70BAE6]"
+                        className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#1687B5]"
                       />
                     </div>
 
@@ -941,7 +941,7 @@ export default function Admin() {
                       <button
                         type="submit"
                         disabled={isSendingOutreach}
-                        className="inline-flex items-center gap-2 bg-[#70BAE6] hover:bg-[#58A6D3] text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow"
+                        className="inline-flex items-center gap-2 bg-[#1687B5] hover:bg-[#0F6F98] text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow"
                       >
                         {isSendingOutreach ? (
                           <>
@@ -975,7 +975,7 @@ export default function Admin() {
               {/* Daily Recurring Slots */}
               <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6">
                 <div className="flex items-center gap-2 pb-4 border-b">
-                  <Clock className="w-5 h-5 text-[#70BAE6]" />
+                  <Clock className="w-5 h-5 text-[#1687B5]" />
                   <h3 className="text-base font-bold text-slate-900">Daily Recurring Time Slots</h3>
                 </div>
 
@@ -985,11 +985,11 @@ export default function Admin() {
                     placeholder="e.g. 01:00 PM - 03:00 PM"
                     value={newSlotInput}
                     onChange={(e) => setNewSlotInput(e.target.value)}
-                    className="flex-1 border border-slate-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-[#70BAE6]"
+                    className="flex-1 border border-slate-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-[#1687B5]"
                   />
                   <button
                     type="submit"
-                    className="bg-[#70BAE6] hover:bg-[#58A6D3] text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1 shadow"
+                    className="bg-[#1687B5] hover:bg-[#0F6F98] text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1 shadow"
                   >
                     <Plus className="w-4 h-4" />
                     <span>Add Slot</span>
@@ -1015,7 +1015,7 @@ export default function Admin() {
               {/* Weekly Days Off Rules */}
               <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6">
                 <div className="flex items-center gap-2 pb-4 border-b">
-                  <Calendar className="w-5 h-5 text-[#70BAE6]" />
+                  <Calendar className="w-5 h-5 text-[#1687B5]" />
                   <h3 className="text-base font-bold text-slate-900">Weekly Days Off Rules</h3>
                 </div>
 
@@ -1054,7 +1054,7 @@ export default function Admin() {
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6">
               <div className="flex items-center justify-between pb-4 border-b">
                 <div className="flex items-center gap-2">
-                  <AlertCircle className="w-5 h-5 text-[#70BAE6]" />
+                  <AlertCircle className="w-5 h-5 text-[#1687B5]" />
                   <h3 className="text-base font-bold text-slate-900">Specific Slot Overrides</h3>
                 </div>
               </div>
@@ -1079,17 +1079,17 @@ export default function Admin() {
                       <div className="space-y-2">
                         <label className="block text-xs font-bold text-slate-700">Select dates</label>
                         <div className="flex gap-2">
-                          <input type="date" value={overrideInput.date} onChange={(e) => setOverrideInput({ ...overrideInput, date: e.target.value })} className="flex-1 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#70BAE6]" />
+                          <input type="date" value={overrideInput.date} onChange={(e) => setOverrideInput({ ...overrideInput, date: e.target.value })} className="flex-1 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#1687B5]" />
                           <button type="button" onClick={() => overrideInput.date && !overrideInput.selectedDates.includes(overrideInput.date) && setOverrideInput({ ...overrideInput, selectedDates: [...overrideInput.selectedDates, overrideInput.date], date: '' })} className="px-3 py-2 bg-slate-800 text-white rounded-xl text-xs font-bold">Add Date</button>
                         </div>
                         <div className="flex flex-wrap gap-2">
-                          {overrideInput.selectedDates.map((date) => <button key={date} type="button" onClick={() => setOverrideInput({ ...overrideInput, selectedDates: overrideInput.selectedDates.filter((item) => item !== date) })} className="px-2 py-1 rounded-full bg-[#70BAE6]/15 text-[#2879a8] text-xs">{date} x</button>)}
+                          {overrideInput.selectedDates.map((date) => <button key={date} type="button" onClick={() => setOverrideInput({ ...overrideInput, selectedDates: overrideInput.selectedDates.filter((item) => item !== date) })} className="px-2 py-1 rounded-full bg-[#1687B5]/15 text-[#2879a8] text-xs">{date} x</button>)}
                         </div>
                       </div>
                     ) : (
                       <div>
                         <label className="block text-xs font-bold text-slate-700 mb-1">Select weekday</label>
-                        <select value={overrideInput.weekday} onChange={(e) => setOverrideInput({ ...overrideInput, weekday: e.target.value })} className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#70BAE6]">
+                        <select value={overrideInput.weekday} onChange={(e) => setOverrideInput({ ...overrideInput, weekday: e.target.value })} className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#1687B5]">
                           {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, index) => <option key={day} value={index}>{day}</option>)}
                         </select>
                       </div>
@@ -1098,7 +1098,7 @@ export default function Admin() {
                     {isBan ? (
                       <div>
                         <label className="block text-xs font-bold text-slate-700 mb-1">Select existing slot</label>
-                        <select required value={overrideInput.slot} onChange={(e) => setOverrideInput({ ...overrideInput, slot: e.target.value })} className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#70BAE6]">
+                        <select required value={overrideInput.slot} onChange={(e) => setOverrideInput({ ...overrideInput, slot: e.target.value })} className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#1687B5]">
                           <option value="">Choose a recurring slot</option>
                           {recurringSlots.map((slot) => <option key={slot.id} value={slot.time_slot}>{slot.time_slot}</option>)}
                         </select>
@@ -1106,11 +1106,11 @@ export default function Admin() {
                     ) : (
                       <div>
                         <label className="block text-xs font-bold text-slate-700 mb-1">New time slot</label>
-                        <input required type="text" placeholder="e.g. 04:00 PM - 06:00 PM" value={overrideInput.newSlot} onChange={(e) => setOverrideInput({ ...overrideInput, newSlot: e.target.value })} className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#70BAE6]" />
+                        <input required type="text" placeholder="e.g. 04:00 PM - 06:00 PM" value={overrideInput.newSlot} onChange={(e) => setOverrideInput({ ...overrideInput, newSlot: e.target.value })} className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-[#1687B5]" />
                       </div>
                     )}
 
-                    <button type="submit" className={`w-full ${isBan ? 'bg-rose-600 hover:bg-rose-700' : 'bg-[#70BAE6] hover:bg-[#58A6D3]'} text-white font-bold py-2 rounded-xl text-xs shadow`}>{action}</button>
+                    <button type="submit" className={`w-full ${isBan ? 'bg-rose-600 hover:bg-rose-700' : 'bg-[#1687B5] hover:bg-[#0F6F98]'} text-white font-bold py-2 rounded-xl text-xs shadow`}>{action}</button>
                   </form>
                 ))}
               </div>
@@ -1158,13 +1158,13 @@ export default function Admin() {
                       placeholder="e.g. Why 3M Paint Protection is Essential for Calgary Winters"
                       value={blogFormData.title}
                       onChange={(e) => setBlogFormData({ ...blogFormData, title: e.target.value })}
-                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#70BAE6]"
+                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#1687B5]"
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">Cover Image Upload (Supabase Bucket)</label>
-                    <div className="border-2 border-dashed border-slate-300 rounded-xl p-4 text-center hover:border-[#70BAE6] transition-colors relative">
+                    <div className="border-2 border-dashed border-slate-300 rounded-xl p-4 text-center hover:border-[#1687B5] transition-colors relative">
                       <input
                         type="file"
                         accept="image/*"
@@ -1172,7 +1172,7 @@ export default function Admin() {
                         className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                       />
                       <div className="space-y-2 pointer-events-none">
-                        <Upload className="w-8 h-8 text-[#70BAE6] mx-auto" />
+                        <Upload className="w-8 h-8 text-[#1687B5] mx-auto" />
                         <p className="text-xs font-bold text-slate-700">Click or drag image file here</p>
                         <p className="text-[10px] text-slate-400">PNG, JPG, or WEBP. You can publish without an image.</p>
                       </div>
@@ -1192,14 +1192,14 @@ export default function Admin() {
                       placeholder="Write your blog content here..."
                       value={blogFormData.content}
                       onChange={(e) => setBlogFormData({ ...blogFormData, content: e.target.value })}
-                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#70BAE6]"
+                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#1687B5]"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={isUploadingBlog}
-                    className="w-full bg-[#70BAE6] hover:bg-[#58A6D3] text-white font-bold py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-[#1687B5] hover:bg-[#0F6F98] text-white font-bold py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2"
                   >
                     {isUploadingBlog ? (
                       <>
@@ -1225,7 +1225,7 @@ export default function Admin() {
                     <p className="text-xs text-slate-400">No blog posts found.</p>
                   ) : (
                     blogs.map((b) => (
-                      <div key={b.id} className="flex gap-4 p-4 rounded-xl border border-slate-200 hover:border-[#70BAE6] transition-all bg-slate-50/50">
+                      <div key={b.id} className="flex gap-4 p-4 rounded-xl border border-slate-200 hover:border-[#1687B5] transition-all bg-slate-50/50">
                         {b.image_url && (
                           <img
                             src={b.image_url}

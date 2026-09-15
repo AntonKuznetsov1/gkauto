@@ -27,7 +27,7 @@ export default function Footer() {
                 />
               </div>
               <span className="text-xl font-extrabold text-white tracking-tight">
-                <span className="text-[#70BAE6]">G&K</span> Auto Detailing
+                <span className="text-[#1687B5]">G&K</span> Auto Detailing
               </span>
             </div>
 
@@ -37,7 +37,7 @@ export default function Footer() {
 
             <div className="pt-2">
               <div className="flex items-start gap-2.5 text-xs text-slate-400 bg-slate-800/60 p-3 rounded-lg border border-slate-800">
-                <Clock className="w-4 h-4 text-[#70BAE6] shrink-0 mt-0.5" />
+                <Clock className="w-4 h-4 text-[#1687B5] shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold text-slate-200">Operating Hours:</p>
                   <p>Monday – Saturday: 8:00 AM – 6:00 PM</p>
@@ -57,9 +57,9 @@ export default function Footer() {
               <li>
                 <a
                   href="tel:4032938989"
-                  className="flex items-center gap-3 text-slate-300 hover:text-[#70BAE6] transition-colors group"
+                  className="flex items-center gap-3 text-slate-300 hover:text-[#1687B5] transition-colors group"
                 >
-                  <div className="p-2 rounded-lg bg-slate-800 text-[#70BAE6] group-hover:bg-[#70BAE6] group-hover:text-white transition-colors">
+                  <div className="p-2 rounded-lg bg-slate-800 text-[#1687B5] group-hover:bg-[#1687B5] group-hover:text-white transition-colors">
                     <Phone className="w-4 h-4" />
                   </div>
                   <span>(403) 293-8989</span>
@@ -69,9 +69,9 @@ export default function Footer() {
               <li>
                 <a
                   href="mailto:gandkautodetailing1@gmail.com"
-                  className="flex items-center gap-3 text-slate-300 hover:text-[#70BAE6] transition-colors group"
+                  className="flex items-center gap-3 text-slate-300 hover:text-[#1687B5] transition-colors group"
                 >
-                  <div className="p-2 rounded-lg bg-slate-800 text-[#70BAE6] group-hover:bg-[#70BAE6] group-hover:text-white transition-colors">
+                  <div className="p-2 rounded-lg bg-slate-800 text-[#1687B5] group-hover:bg-[#1687B5] group-hover:text-white transition-colors">
                     <Mail className="w-4 h-4" />
                   </div>
                   <span className="break-all">gandkautodetailing1@gmail.com</span>
@@ -79,7 +79,7 @@ export default function Footer() {
               </li>
 
               <li className="flex items-start gap-3">
-                <div className="p-2 rounded-lg bg-slate-800 text-[#70BAE6] shrink-0 mt-0.5">
+                <div className="p-2 rounded-lg bg-slate-800 text-[#1687B5] shrink-0 mt-0.5">
                   <MapPin className="w-4 h-4" />
                 </div>
                 <span className="text-slate-300 leading-snug">
@@ -93,9 +93,9 @@ export default function Footer() {
                 Quick Shortcuts
               </h4>
               <div className="flex flex-wrap gap-4 text-xs font-medium">
-                <Link to="/" className="hover:text-[#70BAE6] transition-colors">Home</Link>
-                <Link to="/booking" className="hover:text-[#70BAE6] transition-colors">Book Online</Link>
-                <Link to="/blog" className="hover:text-[#70BAE6] transition-colors">Latest News &amp; Blog</Link>
+                <Link to="/" className="hover:text-[#1687B5] transition-colors">Home</Link>
+                <Link to="/booking" className="hover:text-[#1687B5] transition-colors">Book Online</Link>
+                <Link to="/blog" className="hover:text-[#1687B5] transition-colors">Latest News &amp; Blog</Link>
               </div>
             </div>
           </div>
@@ -110,7 +110,7 @@ export default function Footer() {
                 href="https://maps.google.com/?q=125-+7+Westwinds+Cres+NE,+Calgary,+AB+T3J+5H2"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-[#70BAE6] hover:underline flex items-center gap-1"
+                className="text-xs text-[#1687B5] hover:underline flex items-center gap-1"
               >
                 <span>Open Maps</span>
                 <ExternalLink className="w-3 h-3" />
