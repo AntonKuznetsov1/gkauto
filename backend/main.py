@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 from typing import Optional, List
-from fastapi import FastAPI, File, HTTPException, Query, UploadFile, status
+from fastapi import BackgroundTasks, FastAPI, File, HTTPException, Query, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from postgrest.exceptions import APIError
@@ -302,8 +302,17 @@ def get_availability(date: str = Query(..., description="Target date in YYYY-MM-
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
 
 
+def send_new_booking_notification(booking_data: dict):
+    admin_html = generate_new_booking_admin_email(booking_data)
+    send_email(
+        to_email=OWNER_EMAIL,
+        subject=f"New Booking: {booking_data['service_title']} - {booking_data['client_name']}",
+        html_body=admin_html
+    )
+
+
 @app.post("/api/bookings", status_code=status.HTTP_201_CREATED)
-def create_booking(booking: BookingCreate):
+def create_booking(booking: BookingCreate, background_tasks: BackgroundTasks):
     booking_dict = {
         "customer_name": booking.client_name,
         "customer_email": str(booking.client_email),
@@ -329,15 +338,10 @@ def create_booking(booking: BookingCreate):
         
         created_booking = res.data[0]
 
-        # Trigger Automated Email Notification to Business Owner
-        admin_html = generate_new_booking_admin_email(created_booking)
-        email_sent = send_email(
-            to_email=OWNER_EMAIL,
-            subject=f"New Booking: {created_booking['service_title']} - {created_booking['client_name']}",
-            html_body=admin_html
-        )
+        # Email delivery must not delay or invalidate a saved booking.
+        background_tasks.add_task(send_new_booking_notification, created_booking)
 
-        return {**created_booking, "email_sent": email_sent}
+        return {**created_booking, "email_queued": True}
     except APIError as e:
         print(f"SUPABASE ERROR (create_booking): {e.message}")
         raise HTTPException(status_code=400, detail=f"Database error: {e.message}")
