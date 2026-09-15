@@ -66,8 +66,9 @@ export default function Home() {
       {/* Replace the previous Section 1 block with this section. */}
       {/* ========================================== */}
       <section className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-slate-50 via-white to-slate-50 pt-16 pb-12 sm:pt-20 lg:pt-24 lg:pb-16">
-        <div className="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:linear-gradient(#70BAE6_1px,transparent_1px),linear-gradient(90deg,#70BAE6_1px,transparent_1px)] [background-size:32px_32px]" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#70BAE6]/[0.06] to-transparent" />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.07] [background-image:linear-gradient(#70BAE6_1px,transparent_1px),linear-gradient(90deg,#70BAE6_1px,transparent_1px)] [background-size:32px_32px]" />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:repeating-linear-gradient(135deg,transparent,transparent_18px,#70BAE6_19px,transparent_20px)]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#70BAE6]/[0.1] via-[#70BAE6]/[0.03] to-transparent" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
